@@ -1,0 +1,528 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+    <TMPL_INCLUDE NAME="metahead.tmpl">
+</head>
+<body><div class="wrap">
+
+<TMPL_INCLUDE NAME="header.tmpl">
+
+<div class="content"><article>
+
+<TMPL_INCLUDE NAME="bodytop.tmpl">
+<IMG SRC="images/Guide-p1.png" ALT="入力ガイド" WIDTH="520" HEIGHT="44"/>
+<form name = "mailform" method="post" action="./phase1.cgi">
+    <input type="hidden" name="ID" value="<TMPL_VAR NAME=ID>">
+    <input type="hidden" name="_code" value="application">
+    <input type="hidden" name="orders" value="米魂企画申込み">
+    <input type="hidden" name="self" value="true">
+    <h3>主催者情報</h3>
+    <dl class="register"><table border="0" align="center" cellpadding="5">
+        <tr >
+            <td align="right" <TMPL_VAR NAME=C_P1_NAME>>
+                <font color="blue">※</font>お名前：
+            </td>
+            <td >
+                <div class="rubytext">例：米田魂子</div>
+                <input type="text" name="p1_name" value="" size="30">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_EMAIL>>
+                <font color="blue">※</font>メールアドレス：
+            </td>
+            <td><input type="text" name="email" value="" size="40"></td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_REG_NUMBER>>
+                <font color="blue">※</font>米魂登録番号：
+            </td>
+            <td>
+                <input type="text" name="reg_num" value="9999" style="ime-mode: inactive;" size="40">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_TEL>>
+                お電話番号：
+            </td>
+            <td>
+                <div class="rubytext">例：03-0000-9999</div>
+                <input type="text" name="tel" size="30" style="ime-mode: inactive;">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_FAX>>
+                FAX番号：
+            </td>
+            <td>
+                <div class="rubytext">例：03-0000-9999</div>
+                <input type="text" name="fax" size="30" style="ime-mode: inactive;">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_HP>>
+                携帯・PHS等：
+            </td>
+            <td>
+                <div class="rubytext">例：090-0000-9999</div>
+                <input type="text" name="hp" size="30" style="ime-mode: inactive;">
+            </td>
+        </tr>
+    </table></dl>
+    <h3>企画情報</h3> 
+    <dl class="register"><table border="0" align="center" cellpadding="5">
+        <tr>
+            <td align="right" width = "120" <TMPL_VAR NAME=C_CO_PG_NAME>>
+                企画名称
+            </td>
+            <td width = "450" >
+                <div class="rubytext">例：山陰SFの歴史</div>
+                <input type="text" name="pg_name" size="30">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_NAME_F>>
+                フリガナ
+            </td>
+            <td>
+                <div class="rubytext">例：サンインエスエフノレキシ</div>
+                <input type="text" name="pg_name_f" size="30">
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_KIND>>
+                企画種別：
+            </td>
+            <td>
+                <input type="radio" name="pg_kind" value="K-A1">講演
+                <input type="radio" name="pg_kind" value="K-A2">パネルディスカッション
+                <input type="radio" name="pg_kind" value="K-A3">講座<br>
+                <input type="radio" name="pg_kind" value="K-A4">上映
+                <input type="radio" name="pg_kind" value="K-A5">座談会
+                <input type="radio" name="pg_kind" value="K-A6">お茶会
+                <input type="radio" name="pg_kind" value="K-A7">ゲーム<br>
+                <input type="radio" name="pg_kind" value="K-B1">コンサート
+                <input type="radio" name="pg_kind" value="K-C1">展示
+                <input type="radio" name="pg_kind" value="K-D1">印刷物発行
+                <input type="radio" name="pg_kind" value="K-E1">投票<br>
+                <input type="radio" name="pg_kind" value="K-X1">その他
+                <input type="text" name="pg_kind2" size="30"><br>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_PLACE>>
+                希望場所：
+            </td>
+            <td>
+                <input type="radio" name="pg_place" value="P-N" checked>特になし
+                <input type="radio" name="pg_place" value="P-C1">会議室
+                <input type="radio" name="pg_place" value="P-H1">小ホール(300人)
+                <input type="radio" name="pg_place" value="P-H2">国際会議室(400人)<br />
+                <input type="radio" name="pg_place" value="P-G3">多目的ホール(ギャラリー利用)
+                <input type="radio" name="pg_place" value="P-X1">その他
+                    <input type="text" name="pg_place2" size="30"><br>
+                <br>
+                レイアウトの選択<br>
+                <input type="radio" name="pg_layout" value="0">シアター
+                <input type="radio" name="pg_layout" value="1" checked>スクール
+                <input type="radio" name="pg_layout" value="2">ロの字
+                <input type="radio" name="pg_layout" value="3">島組<br>
+                <input type="radio" name="pg_layout" value="9">その他
+                    <input type="text" name="pg_layout2" size="30"><br>
+                小ホールはシアター形式です。<BR>
+                会議室は、原則としてスクール形式です。ロの字、島組を希望される場合は選択、その他のレイアウトを希望される方は、選択の上具体的に記載願います。<br>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_TIME>>
+                希望日時：
+            </td>
+            <td>
+                <input type="radio" name="pg_time" value="T-N">特になし<br>
+                <input type="radio" name="pg_time" value="T-200">29日(土)のどこでも
+                <input type="radio" name="pg_time" value="T-201">29日(土)午前*
+                <input type="radio" name="pg_time" value="T-202">29日(土)午後<br>
+                <input type="radio" name="pg_time" value="T-210">30日(日)のどこでも
+                <input type="radio" name="pg_time" value="T-211">30日(日)午前&nbsp;
+                <input type="radio" name="pg_time" value="T-212">30日(日)午後<br>
+                <input type="radio" name="pg_time" value="T-A">両日
+                <input type="radio" name="pg_time" value="T-X1">その他
+                    <input type="text" name="pg_time2" size="30"><br>
+                *29日(土)午前は開会式の裏になります。
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_KOMA>>
+                希望コマ数：
+            </td>
+            <td>
+                <input type="radio" name="pg_koma" value="TK-1">１コマ(90分+準備30分)
+                <input type="radio" name="pg_koma" value="TK-2">２コマ(210分+準備30分)<BR>
+                <input type="radio" name="pg_koma" value="TK-A">終日
+                <input type="radio" name="pg_koma" value="TK-X1">その他
+                    <input type="text" name="pg_koma2" size="30"><br>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_NINZU>>
+                予想参加者：
+            </td>
+            <td>
+                <input type="radio" name="pg_ninzu" value="TN-0">不明
+                <input type="radio" name="pg_ninzu" value="TN-1">20人まで
+                <input type="radio" name="pg_ninzu" value="TN-2">50人まで<br>
+                <input type="radio" name="pg_ninzu" value="TN-3">100人まで
+                <input type="radio" name="pg_ninzu" value="TN-4">200人まで
+                <input type="radio" name="pg_ninzu" value="TN-5">200人超<br>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_NAIYOU>>
+                内容説明：
+            </td>
+            <td>
+                <input type="radio" name="pg_naiyou_k" value="CX-0">事前公開可
+                <input type="radio" name="pg_naiyou_k" value="CX-1">事前公開不可<br>
+                <textarea name="pg_naiyou" cols="40" rows="5"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_NAIYOU_K>>
+                リアルタイム公開：
+            </td>
+            <td>
+                <input type="radio" name="pg_kiroku_kb" value="CX-0">UST等動画を含む全て許可<br>
+                <input type="radio" name="pg_kiroku_kb" value="CX-1" checked>twitter等テキストと静止画公開可<br>
+                <input type="radio" name="pg_kiroku_kb" value="CX-2">テキストのみ公開可<br>
+                <input type="radio" name="pg_kiroku_kb" value="CX-3">公開不可<br>
+                <input type="radio" name="pg_kiroku_kb" value="CX-9" >その他<br>
+                ※公開を許可される場合には参加者の方に公開される旨ご周知ください。著作権・肖像権等の問題が発生した場合には、企画主催者が責任を持ってご対応ください。ご対応が困難な場合には公開を許可しないでください。
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_NAIYOU_K>>
+                事後公開：
+            </td>
+            <td>
+                <input type="radio" name="pg_kiroku_ka" value="CX-0">動画を含む全て許可<br>
+                <input type="radio" name="pg_kiroku_ka" value="CX-1" checked>blog等テキストと静止画公開可<br>
+                <input type="radio" name="pg_kiroku_ka" value="CX-2">テキストのみ公開可<br>
+                <input type="radio" name="pg_kiroku_ka" value="CX-3">公開不可<br>
+                <input type="radio" name="pg_kiroku_ka" value="CX-9" >その他<br>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="5" align="right" <TMPL_VAR NAME=C_CO_PG_KIZAI>>
+                使用機材：
+            </td>
+            <td>
+                <b>提供予定機材</b><br/>
+                今大会では以下の設備が無料使用可能です。企画に使用したい機材をチェックして下さい。(マイクに関してはだいたいの本数も記入願います<BR/>
+                <font size="-80%">ただし、数や予算に限りがありますので、無料提供出来ない場合があることをご了承下さい。</font><BR/>
+                <br/>
+                <div><input type="checkbox" name="wbd" value="wbd"><span>ホワイトボード</span></div>
+                <div><input type="checkbox" name="mic" value="mic"><span>壇上用マイク(固定)</span>
+                    本数<input type="text" name="miccnt" size="10">本</div>
+                <div><input type="checkbox" name="mmc" value="mmc"><span>客席用マイク(可動)</span>
+                    本数<input type="text" name="mmccnt" size="10">本</div>
+                <div><input type="checkbox" name="mon" value="mon"><span>プロジェクタまたは大型モニタ</span></div>
+                <div><input type="checkbox" name="dvd" value="dvd"><span>DVDプレイヤー</span></div>
+                <div><input type="checkbox" name="bdp" value="bdp"><span>BDプレイヤー</span></div>
+                <div><input type="checkbox" name="syo" value="syo"><span>書画カメラ</span></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>その他要望機材</b><br/>
+                上記にない機材で、要望する機材があれば、記述して下さい。<br/>
+                なお、ご希望に添えない場合があることをご了承下さい。<br/>
+                <textarea name="fc_naiyou" cols="40" rows="3"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>持ち込み映像機器</b><br />
+                大会が用意するプロジェクタまたは大型モニタに接続する機材を持ち込むかどうかと、<br/>
+                その接続方式を記載して下さい。<br>
+                <font size="-80%">接続方式によっては、大会が用意する方式への変換ケーブルやコンバータも持ち込んで頂く場合があります。</font>
+                <div>
+                    <input type="radio" name="fc_vid" value="0">持ち込む
+                    <input type="radio" name="fc_vid" value="1" checked>持ち込まない
+                </div>
+                <P/>
+                <div style="color:#22AA22">以下持ち込む場合のみ</div>
+                <div style="padding-left:inherit">
+                    <div id="av-v">
+                        映像接続形式<br/>
+                        <input type="radio" name="av-v" value="hdmi">HDMI
+                        <input type="radio" name="av-v" value="S-Video">S-Video
+                        <input type="radio" name="av-v" value="RCA">RCAコンポジット(黄)<br/>
+                        <input type="radio" name="av-v" value="other">その他
+                            <input type="text" name="av-velse" size="30"><br>
+                    </div>
+                    <div id="av-a" style="padding-top:5px">
+                        音声接続形式
+                        <font size="-80%">HDMIで映像と音声を伝送する場合は、不要を選んで下さい</font><br/>
+                        <input type="radio" name="av-a" value="none">不要
+                        <input type="radio" name="av-a" value="S-Video">ステレオミニ(3.5mmTSR)
+                        <input type="radio" name="av-a" value="RCA">RCAコンポジット(赤白)<br/>
+                        <input type="radio" name="av-a" value="other">その他
+                            <input type="text" name="av-velse" size="30"><br>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>持ち込みパソコン</b><br />
+                企画で使用するパソコンを持ち込むかどうかと、接続形式などを記載して下さい。<br/>
+                <div>
+                    <input type="radio" name="fc_pc" value="0">持ち込む
+                    <input type="radio" name="fc_pc" value="1" checked>持ち込まない
+                </div>
+                <P/>
+                <div style="color:#22AA22">以下持ち込む場合のみ</div>
+                <div style="padding-left:inherit">
+                    <div id="pc-v">
+                        映像接続形式<br/>
+                        <input type="radio" name="pc-v" value="none">接続しない
+                        <input type="radio" name="pc-v" value="hdmi">HDMI
+                        <input type="radio" name="pc-v" value="vga">D-Sub15(VGA)
+                        <input type="radio" name="pc-v" value="dip">DisplayPort/Tunderbolt(Mac)<BR/>
+                        <input type="radio" name="pc-v" value="other">その他
+                            <input type="text" name="av-velse" size="30"><br>
+                    </div>
+                    <div id="pc-a" style="padding-top:5px">
+                        音声接続形式
+                        <font size="-80%">HDMIで映像と音声を伝送する場合は、不要を選んで下さい</font><br/>
+                        <input type="radio" name="pc-a" value="none">不要
+                        <input type="radio" name="pc-a" value="S-Video">ステレオミニ(3.5mmTSR)
+                        <input type="radio" name="pc-a" value="RCA">RCAコンポジット(赤白)<br/>
+                        <input type="radio" name="pc-a" value="other">その他
+                            <input type="text" name="av-velse" size="30"><br>
+                    </div>
+                    <div id="lan" style="padding-top:5px">
+                        インタネット接続形式<br/>
+                        <input type="radio" name="lan" value="none">接続しない
+                        <input type="radio" name="lan" value="LAN">有線(RJ-45)
+                        <input type="radio" name="lan" value="WIFI">無線<br/>
+                        <input type="radio" name="lan" value="other">その他
+                            <input type="text" name="av-velse" size="30"><br>
+                        <div style="padding-left:15px;padding-top:5px">
+                            インタネット利用方法(接続する場合)
+                            <font size="-80%">有線を希望される場合は、有線LANが必要な理由も記載して下さい</font><br/>
+                            <textarea name="lanreason" cols"30" rows="3"></textarea><br>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>その他持ち込み予定機材</b><br>
+                映像機器、パソコン以外で持ち込む予定の機材を記載して下さい。<br/>
+                電源容量の見積もりや企画場所決定の参考情報とします。<br/>
+                なお、場合によっては持ち込みをご遠慮いただく場合があることをご了承下さい。
+                <textarea name="fc_mochikomi" cols="40" rows="3"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" >
+                企画を立てるのは？:
+            </td>
+            <td>
+                <input type="radio" name="pg_enquete" value="0" checked>初めて
+                <input type="radio" name="pg_enquete" value="1">昨年に続いて2回目
+                <input type="radio" name="pg_enquete" value="2">継続して3～5回目<br />
+                <input type="radio" name="pg_enquete" value="3">ひさしぶり
+                <input type="radio" name="pg_enquete" value="4">6回目以上
+            </td>
+        </tr>
+        <tr>
+            <td align="right" >
+                重なると困る企画
+            </td>
+            <td>
+                具体的な企画名がわかっている場合はその名称を、そうでない場合は企画内容のジャンルなどを記述して下さい。<br/>
+                出演者のバッティングに関しては、下記出演者情報で調整しますので、ここに記載されなくても構いません。<br/>
+                <textarea name="pg_badprog" cols="40" rows="3"></textarea>
+            </td>
+        </tr>
+    </table></dl>
+    <h3>出演者情報</h3> 
+    ※出演者のうち、該当分野のプロであると実行委員会が判断した方はゲストとして招待いたします。出演者のご職業や所属組織をお書き添えいただけると、判断しやすくなりますのでご協力をお願いします。<br/>
+    また、必ず読み仮名をご記入ください
+    <dl class="register"><table border="0" align="center" cellpadding="5">
+        <tr>
+            <td></td>
+            <td>企画申込者自身は出演</td>
+            <td colspan="2">
+                <input type="radio" name="youdo" value="0" checked>する
+                <input type="radio" name="youdo" value="1">しない
+            </td>
+        </tr>
+        <tr>
+            <td align="right" >No.</td>
+            <td align="left" >出演者氏名<br/>ふりがな</td>
+            <td align="left" >出演交渉</td>
+            <td align="left" >ゲスト申請</td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST1>>１</td>
+            <td valign="middle">
+                <div class="rubytext">例：赤井 孝美（イラストレーター、プロデューサー）</div><input type="text" name="pp1_name" size="30"><br>
+                <div class="rubytext">例：あかい たかみ</div>
+                <input type="text" name="pp1_name_f" size="30">
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G1CON>>
+                <input type="radio" name="pp1_con" value="PP-A">交渉を大会に依頼<br>
+                <input type="radio" name="pp1_con" value="PP-B1">出演了承済<br>
+                <input type="radio" name="pp1_con" value="PP-B2">交渉中<br>
+                <input type="radio" name="pp1_con" value="PP-B3">未交渉<br>
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G1GRQ>>
+                <input type="radio" name="pp1_grq" value="PP-A">する<br>
+                <input type="radio" name="pp1_grq" value="PP-B">しない
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST2>>２</td>
+            <td valign="middle">
+                <input type="text" name="pp2_name" size="30"><br>
+                <input type="text" name="pp2_name_f" size="30">
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G2CON>>
+                <input type="radio" name="pp2_con" value="PP-A">交渉を大会に依頼<br>
+                <input type="radio" name="pp2_con" value="PP-B1">出演了承済<br>
+                <input type="radio" name="pp2_con" value="PP-B2">交渉中<br>
+                <input type="radio" name="pp2_con" value="PP-B3">未交渉<br>
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G2GRQ>>
+                <input type="radio" name="pp2_grq" value="PP-A">する<br>
+                <input type="radio" name="pp2_grq" value="PP-B">しない
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST3>>３</td>
+            <td valign="middle">
+                <input type="text" name="pp3_name" size="30"><br>
+                <input type="text" name="pp3_name_f" size="30">
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G3CON>>
+                <input type="radio" name="pp3_con" value="PP-A">交渉を大会に依頼<br>
+                <input type="radio" name="pp3_con" value="PP-B1">出演了承済<br>
+                <input type="radio" name="pp3_con" value="PP-B2">交渉中<br>
+                <input type="radio" name="pp3_con" value="PP-B3">未交渉<br>
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G3GRQ>>
+                <input type="radio" name="pp3_grq" value="PP-A">する<br>
+                <input type="radio" name="pp3_grq" value="PP-B">しない
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST4>>４</td>
+            <td valign="middle">
+                <input type="text" name="pp4_name" size="30"><br>
+                <input type="text" name="pp4_name_f" size="30">
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G4CON>>
+                <input type="radio" name="pp4_con" value="PP-A">交渉を大会に依頼<br>
+                <input type="radio" name="pp4_con" value="PP-B1">出演了承済<br>
+                <input type="radio" name="pp4_con" value="PP-B2">交渉中<br>
+                <input type="radio" name="pp4_con" value="PP-B3">未交渉<br>
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G4GRQ>>
+                <input type="radio" name="pp4_grq" value="PP-A">する<br>
+                <input type="radio" name="pp4_grq" value="PP-B">しない
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST5>>５</td>
+            <td valign="middle">
+                <input type="text" name="pp5_name" size="30"><br>
+                <input type="text" name="pp5_name_f" size="30">
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G5CON>>
+                <input type="radio" name="pp5_con" value="PP-A">交渉を大会に依頼<br>
+                <input type="radio" name="pp5_con" value="PP-B1">出演了承済<br>
+                <input type="radio" name="pp5_con" value="PP-B2">交渉中<br>
+                <input type="radio" name="pp5_con" value="PP-B3">未交渉<br>
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G5GRQ>>
+                <input type="radio" name="pp5_grq" value="PP-A">する<br>
+                <input type="radio" name="pp5_grq" value="PP-B">しない
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST6>>６</td>
+            <td valign="middle">
+                <input type="text" name="pp6_name" size="30"><br>
+                <input type="text" name="pp6_name_f" size="30">
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G6CON>>
+                <input type="radio" name="pp6_con" value="PP-A">交渉を大会に依頼<br>
+                <input type="radio" name="pp6_con" value="PP-B1">出演了承済<br>
+                <input type="radio" name="pp6_con" value="PP-B2">交渉中<br>
+                <input type="radio" name="pp6_con" value="PP-B3">未交渉<br>
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G6GRQ>>
+                <input type="radio" name="pp6_grq" value="PP-A">する<br>
+                <input type="radio" name="pp6_grq" value="PP-B">しない
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST7>>７</td>
+            <td valign="middle">
+                <input type="text" name="pp7_name" size="30"><br>
+                <input type="text" name="pp7_name_f" size="30">
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G7CON>>
+                <input type="radio" name="pp7_con" value="PP-A">交渉を大会に依頼<br>
+                <input type="radio" name="pp7_con" value="PP-B1">出演了承済<br>
+                <input type="radio" name="pp7_con" value="PP-B2">交渉中<br>
+                <input type="radio" name="pp7_con" value="PP-B3">未交渉<br>
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G7GRQ>>
+                <input type="radio" name="pp7_grq" value="PP-A">する<br>
+                <input type="radio" name="pp7_grq" value="PP-B">しない
+            </td>
+        </tr>
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST8>>８</td>
+            <td valign="middle">
+                <input type="text" name="pp8_name" size="30"><br>
+                <input type="text" name="pp8_name_f" size="30">
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G8CON>>
+                <input type="radio" name="pp8_con" value="PP-A">交渉を大会に依頼<br>
+                <input type="radio" name="pp8_con" value="PP-B1">出演了承済<br>
+                <input type="radio" name="pp8_con" value="PP-B2">交渉中<br>
+                <input type="radio" name="pp8_con" value="PP-B3">未交渉<br>
+            </td>
+            <td <TMPL_VAR NAME=C_CO_PG_G8GRQ>>
+                <input type="radio" name="pp8_grq" value="PP-A">する<br>
+                <input type="radio" name="pp8_grq" value="PP-B">しない
+            </td>
+        </tr>
+    </table></dl>
+    <h3>備考欄</h3> 
+    <dl class="register"><table border="0" align="center" cellpadding="5">
+        <tr>
+            <td align="right" <TMPL_VAR NAME=C_CO_PG_COMMENT>>
+                備考：
+            </td>
+            <td>
+                その他、企画担当スタッフに伝えたい事柄<br>
+                <textarea name="fc_comment" cols="60" rows="3"></textarea>
+            </td>
+        </tr>
+    </table></dl>
+    <div align="center">
+        <input type="submit" name="submit" value="入力内容確認">
+    </div>
+</FORM>
+</article></div>
+
+<TMPL_INCLUDE NAME="footer.tmpl">
+
+</div></body>
+</html>

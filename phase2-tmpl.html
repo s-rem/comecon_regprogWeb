@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+    <TMPL_INCLUDE NAME="metahead.tmpl">
+</head>
+<body><div class="wrap">
+
+<TMPL_INCLUDE NAME="header.tmpl">
+
+<div class="content"><article>
+
+<TMPL_INCLUDE NAME="bodytop.tmpl">
+<IMG SRC="images/Guide-p2.png" ALT="入力ガイド" WIDTH="520" HEIGHT="44"/><br />
+以下の登録情報・連絡先に間違いがなければ、申込確定を押してください。<br>
+修正する場合には、ページ下の「修正する」機能で前ページに戻ってください。
+
+<h3>主催者情報</h3>
+<dl class="register">
+    <TMPL_VAR NAME=ORGINIZER><br>
+</dl>
+
+<h3>企画情報</h3>
+<dl class="register">
+    <TMPL_VAR NAME=PROGRAM><br>
+</dl>
+
+<h3>出演者情報</h3>
+<dl class="register">
+    <TMPL_VAR NAME=GUEST><br>
+</dl>
+
+<h3>備考欄</h3>
+<dl class="register">
+    <TMPL_VAR NAME=COMMENT><br>
+</dl>
+
+<div align="center">
+    <form name = "mailform" method="post" action="./phase3.cgi">
+	    <input type="hidden" name="ID" value="<TMPL_VAR NAME=ID>">
+	    <input type="submit" name="submit" value="申込確定">
+    </form>
+    <form name = "mailform" method="post" action="./phase1.cgi">
+	    <input type="hidden" name="ID" value="<TMPL_VAR NAME=ID>">
+	    <input type="submit" name="submit" value="修正する">
+    </form>
+</div>
+</article></div>
+
+<TMPL_INCLUDE NAME="footer.tmpl">
+
+</div></body>
+</html>
