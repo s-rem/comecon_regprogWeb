@@ -1,6 +1,11 @@
-.content a            {color:#003557;text-decoration: none;}
-.content a:visited         {color:#75828b;}
-.content a:hover         {color:#cc0000;}
+.rubytext               {font-size:0.8em;color:#550055;vertical-align:bottom;}
+.commtext               {font-size:0.8em;}
+.risttext               {color:#22AA22;}
+.indent                 {padding-left:1.0em;}
+.spacing                {padding-top:0.3em;}
+.content a              {color:#003557;text-decoration: none;}
+.content a:visited      {color:#75828b;}
+.content a:hover        {color:#cc0000;}
 
 .content p                 {line-height:1.6;text-align:justify;text-justify:inter-ideograph;}
 .content h2                {font-size:1.2em;color:#fff;background-color:#75828b;padding:3px 5px;clear:both;}
