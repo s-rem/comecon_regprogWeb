@@ -7,18 +7,25 @@ use CGI::Carp qw(fatalsToBrowser);
 use HTML::Template;
 use HTML::FillInForm;
 use Net::SMTP;
-use Jcode;
 use MIME::Base64;
 use SFCON::Register;
 use SFCON::Register_db;
 use Encode::Guess qw/ shiftjis euc-jp 7bit-jis /;
 use Encode qw/ encode decode from_to/;
 
+# 工事中なう
+my $cgi=CGI->new;
+my $uc_page=HTML::Template->new(filename => 'uc.html');
+print $cgi->header(-charset=>'UTF-8');
+print "\n\n";
+print $uc_page->output;
+
+exit;
+1;
+
 my $register = SFCON::Register->new;
-my $query = CGI->new;
 my $database = SFCON::Register_db->new;
 
-my $cgi=CGI->new;
 my $sid=$cgi->param('ID')||$cgi->cookie('ID')||undef;
 #1.cookieからCGISESSIDを探す
 #2.cookieから取れなかったらurlパラメータを探す．
@@ -88,7 +95,7 @@ if(defined $sid && $sid eq $session->id){
 	# TOKON10登録担当者にメールを送る
 
 	$smtp = Net::SMTP->new('127.0.0.1');
-	my $mail_out = decode('utf8',$register->reg_mail_text_program($session, $r_num));
+	$mail_out = decode('utf8',$register->reg_mail_text_program($session, $r_num));
 	$mail_out =~ tr/[\x{ff5e}\x{2225}\x{ff0d}\x{ffe0}\x{ffe1}\x{ffe2}]/[\x{301c}\x{2016}\x{2212}\x{00a2}\x{00a3}\x{00ac}]/;
 
 	$smtp->mail($envfrom);
@@ -128,7 +135,10 @@ if(defined $sid && $sid eq $session->id){
 		  $session->close;
 		  $session->delete;
 	}
-	print $cgi->redirect('./error.html');
+    $input_page=HTML::Template->new(filename => 'error.html');
+	print $cgi->header(-charset=>'UTF-8');
+	print "\n\n";
+    print $input_page->output;
 }
 exit;
 1;

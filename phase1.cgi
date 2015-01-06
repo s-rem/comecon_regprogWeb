@@ -76,7 +76,10 @@ if(defined $sid && $sid eq $session->id){
 		  $session->close;
 		  $session->delete;
 	}
-	print $cgi->redirect('./error.html');
+    $input_page=HTML::Template->new(filename => 'error.html');
+	print $cgi->header(-charset=>'UTF-8');
+	print "\n\n";
+    print $input_page->output;
 }
 exit;
 
@@ -234,6 +237,10 @@ sub _input_check {
 	}
 
     # 出演者情報
+    if ($cgi->param('youdo') eq '' ) {
+        $input_page->param(C_CO_PG_YOUDO => $c_not_fill);
+        $input_check = 1;
+    }
     my $ppcnt;
 	for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {	# CONST: 出演者の最大値
         my $ppname      = 'pp' . $ppcnt . '_name';

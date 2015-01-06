@@ -49,7 +49,10 @@ if(defined $sid && $sid eq $session->id){
 		  $session->close;
 		  $session->delete;
 	}
-	print $cgi->redirect('./error.html');
+    $input_page=HTML::Template->new(filename => 'error.html');
+	print $cgi->header(-charset=>'UTF-8');
+	print "\n\n";
+    print $input_page->output;
 }
 exit;
 
