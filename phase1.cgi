@@ -122,10 +122,6 @@ sub _input_check {
 		$input_page->param(C_CO_PG_KIND => $c_not_fill);
 		$input_check = 1;
 	}
-	if($cgi->param('pg_kind') ne 'K-X1' && $cgi->param('pg_kind2') ne ''){
-		$input_page->param(C_CO_PG_KIND => $c_not_fill);
-		$input_check = 1;
-	}
     # 希望場所
 	if($cgi->param('pg_place') eq ''){
 		$input_page->param(C_CO_PG_PLACE => $c_not_fill);
@@ -135,16 +131,13 @@ sub _input_check {
 		$input_page->param(C_CO_PG_PLACE => $c_not_fill);
 		$input_check = 1;
 	}
-	if($cgi->param('pg_place') ne 'P-X1' && $cgi->param('pg_place2') ne ''){
-		$input_page->param(C_CO_PG_PLACE => $c_not_fill);
-		$input_check = 1;
-	}
     # 希望場所レイアウト
 	if($cgi->param('pg_layout') eq '9' && $cgi->param('pg_layout2') eq ''){
 		$input_page->param(C_CO_PG_PLACE => $c_not_fill);
 		$input_check = 1;
 	}
-	if($cgi->param('pg_layout') ne '9' && $cgi->param('pg_layout2') ne ''){
+    # 小ホールはシアターのみ
+	if($cgi->param('pg_place') eq 'P-H1' && $cgi->param('pg_layout') ne '0'){
 		$input_page->param(C_CO_PG_PLACE => $c_not_fill);
 		$input_check = 1;
 	}
@@ -157,20 +150,12 @@ sub _input_check {
 		$input_page->param(C_CO_PG_TIME => $c_not_fill);
 		$input_check = 1;
 	}
-	if($cgi->param('pg_time') ne 'T-X1' && $cgi->param('pg_time2') ne ''){
-		$input_page->param(C_CO_PG_TIME => $c_not_fill);
-		$input_check = 1;
-	}
     # 希望コマ数
 	if($cgi->param('pg_koma') eq ''){
 		$input_page->param(C_CO_PG_KOMA => $c_not_fill);
 		$input_check = 1;
 	}
 	if($cgi->param('pg_koma') eq 'TK-X1' && $cgi->param('pg_koma2') eq ''){
-		$input_page->param(C_CO_PG_KOMA => $c_not_fill);
-		$input_check = 1;
-	}
-	if($cgi->param('pg_koma') ne 'TK-X1' && $cgi->param('pg_koma2') ne ''){
 		$input_page->param(C_CO_PG_KOMA => $c_not_fill);
 		$input_check = 1;
 	}
@@ -184,63 +169,86 @@ sub _input_check {
 		$input_page->param(C_CO_PG_NAIYOU => $c_not_fill);
 		$input_check = 1;
 	}
-
-# 出演者情報
-	if($cgi->param('pp1_name') ne '' || $cgi->param('pp1_name_f') ne ''){
-		if($cgi->param('pp1_name') eq '' || $cgi->param('pp1_con') eq '' || $cgi->param('pp1_grq') eq ''){
-			$input_page->param(C_CO_PG_GUEST1 => $c_not_fill);
-			$input_check = 1;
-		}
+    # リアルタイム公開
+	if($cgi->param('pg_kiroku_kb') eq ''){
+		$input_page->param(C_CO_PG_KIROKU_KB => $c_not_fill);
+		$input_check = 1;
+	}
+    # 事後公開
+	if($cgi->param('pg_kiroku_ka') eq ''){
+		$input_page->param(C_CO_PG_KIROKU_KA => $c_not_fill);
+		$input_check = 1;
+	}
+    # 使用機材
+    if (   ( $cgi->param('mic') && $cgi->param('miccnt') <= 0 )
+        || ( $cgi->param('mic2') && $cgi->param('mic2cnt') <= 0 )
+       ) {
+		$input_page->param(C_CO_PG_KIZAI => $c_not_fill);
+		$input_check = 1;
+	}
+    if ( $cgi->param('fc_vid') eq '0' ) {
+        if (   ( $cgi->param('av-v') eq '' )
+            || (( $cgi->param('av-v') eq 'other' ) &&
+                ( $cgi->param('av-v_velse') eq '')    )
+           ) {
+		    $input_page->param(C_CO_PG_KIZAI => $c_not_fill);
+		    $input_check = 1;
+        }
+        if (   ( $cgi->param('av-a') eq '' )
+            || (( $cgi->param('av-a') eq 'other' ) &&
+                ( $cgi->param('av-a_velse') eq '')    )
+           ) {
+		    $input_page->param(C_CO_PG_KIZAI => $c_not_fill);
+		    $input_check = 1;
+        }
+	}
+    if ( $cgi->param('fc_pc') eq '0' ) {
+        if (   ( $cgi->param('pc-v') eq '' )
+            || (( $cgi->param('pc-v') eq 'other' ) &&
+                ( $cgi->param('pc-v_velse') eq '')    )
+           ) {
+		    $input_page->param(C_CO_PG_KIZAI => $c_not_fill);
+		    $input_check = 1;
+        }
+        if (   ( $cgi->param('pc-a') eq '' )
+            || (( $cgi->param('pc-a') eq 'other' ) &&
+                ( $cgi->param('pc-a_velse') eq '')    )
+           ) {
+		    $input_page->param(C_CO_PG_KIZAI => $c_not_fill);
+		    $input_check = 1;
+        }
+        if (   ( $cgi->param('lan') eq '' )
+            || (( $cgi->param('lan') eq 'other' ) &&
+                ( $cgi->param('pc-l_velse') eq '')   )
+            || (( $cgi->param('lan') ne 'none' )  &&
+                ( $cgi->param('lanreason') eq '' )   )
+           ) {
+		    $input_page->param(C_CO_PG_KIZAI => $c_not_fill);
+		    $input_check = 1;
+        }
+	}
+    # 企画を立てるのは
+	if($cgi->param('pg_enquete') eq ''){
+		$input_page->param(C_CO_PG_ENQUETE => $c_not_fill);
+		$input_check = 1;
 	}
 
-	if($cgi->param('pp2_name') ne '' || $cgi->param('pp2_name_f') ne ''){
-		if($cgi->param('pp2_name') eq '' || $cgi->param('pp2_con') eq '' || $cgi->param('pp2_grq') eq ''){
-			$input_page->param(C_CO_PG_GUEST2 => $c_not_fill);
-			$input_check = 1;
-		}
-	}
-
-	if($cgi->param('pp3_name') ne '' || $cgi->param('pp3_name_f') ne ''){
-		if($cgi->param('pp3_name') eq '' || $cgi->param('pp3_con') eq '' || $cgi->param('pp3_grq') eq ''){
-			$input_page->param(C_CO_PG_GUEST3 => $c_not_fill);
-			$input_check = 1;
-		}
-	}
-
-	if($cgi->param('pp4_name') ne '' || $cgi->param('pp4_name_f') ne ''){
-		if($cgi->param('pp4_name') eq '' || $cgi->param('pp4_con') eq '' || $cgi->param('pp4_grq') eq ''){
-			$input_page->param(C_CO_PG_GUEST4 => $c_not_fill);
-			$input_check = 1;
-		}
-	}
-
-	if($cgi->param('pp5_name') ne '' || $cgi->param('pp5_name_f') ne ''){
-		if($cgi->param('pp5_name') eq '' || $cgi->param('pp5_con') eq '' || $cgi->param('pp5_grq') eq ''){
-			$input_page->param(C_CO_PG_GUEST5 => $c_not_fill);
-			$input_check = 1;
-		}
-	}
-
-	if($cgi->param('pp6_name') ne '' || $cgi->param('pp6_name_f') ne ''){
-		if($cgi->param('pp6_name') eq '' || $cgi->param('pp6_con') eq '' || $cgi->param('pp6_grq') eq ''){
-			$input_page->param(C_CO_PG_GUEST6 => $c_not_fill);
-			$input_check = 1;
-		}
-	}
-
-	if($cgi->param('pp7_name') ne '' || $cgi->param('pp7_name_f') ne ''){
-		if($cgi->param('pp7_name') eq '' || $cgi->param('pp7_con') eq '' || $cgi->param('pp7_grq') eq ''){
-			$input_page->param(C_CO_PG_GUEST7 => $c_not_fill);
-			$input_check = 1;
-		}
-	}
-
-	if($cgi->param('pp8_name') ne '' || $cgi->param('pp8_name_f') ne ''){
-		if($cgi->param('pp8_name') eq '' || $cgi->param('pp8_con') eq '' || $cgi->param('pp8_grq') eq ''){
-			$input_page->param(C_CO_PG_GUEST8 => $c_not_fill);
-			$input_check = 1;
-		}
-	}
+    # 出演者情報
+    my $ppcnt;
+	for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {	# CONST: 出演者の最大値
+        my $ppname      = 'pp' . $ppcnt . '_name';
+        my $ppname_f    = 'pp' . $ppcnt . '_name_f';
+        my $ppcon       = 'pp' . $ppcnt . '_con';
+        my $ppgrq       = 'pp' . $ppcnt . '_grq';
+        my $CCOPG       = 'C_CO_PG_GUEST' . $ppcnt;
+	    if ($cgi->param($ppname) ne '' || $cgi->param($ppname_f) ne ''){
+		    if ($cgi->param($ppname) eq '' || $cgi->param($ppname_f) eq '' ||
+                $cgi->param($ppcon)  eq '' || $cgi->param($ppgrq) eq ''){
+			    $input_page->param($CCOPG => $c_not_fill);
+			    $input_check = 1;
+		    }
+	    }
+    }
 
 	return($input_check);
 }

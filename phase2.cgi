@@ -8,6 +8,8 @@ use HTML::Template;
 use HTML::FillInForm;
 use SFCON::Register;
 
+use Data::Dumper;
+
 my $register = SFCON::Register->new;
 my $cgi = CGI->new;
 
@@ -27,10 +29,9 @@ if(defined $sid && $sid eq $session->id){
 	$input_page->param(ID => $session->id);
 	$session->param('phase', '2-1');
 
-    html_out_organizer($input_page, $session);
-    html_out_program($input_page, $session);
+    html_out_simple($input_page, $session);
+    html_out_table($input_page, $session);
     html_out_guest($input_page, $session);
-    html_out_comment($input_page, $session);
 
 	my $form_out = HTML::FillInForm->new;
     # 事実上、mailform2にinputはないので$html_outは$input_page->output そのもの
@@ -52,32 +53,33 @@ if(defined $sid && $sid eq $session->id){
 }
 exit;
 
-# 参加申込者情報
-sub html_out_organizer {
+# 単純置き換え
+sub html_out_simple {
     my (
         $page,  # HTML::Templateオブジェクト
         $sprm,  # CGI::Sessionオブジェクト
     ) = @_;
-    my @org_pname = (   # 主催者パラメータ名配列
+    # 単純置き換え パラメータ名配列
+    my @org_pname = (
         "p1_name", "email", "reg_num", "tel", "fax", "cellphone",
+        "pg_name", "pg_name_f", "pg_naiyou", "fc_other_naiyou",
+        "fc_mochikomi", "pg_badprog",
+        "fc_comment",
     );
+    # 単純置き換え
     foreach my $pname ( @org_pname ) {
-	    $page->param( $pname => $sprm->param($pname));
+        my $value = $sprm->param($pname);
+        $value =~ s/[\r\n]+/<br\/>/mg;
+	    $page->param( $pname => $value );
     }
 }
 
-# 企画情報
-sub html_out_program {
+# テーブル定義変換
+sub html_out_table {
     my (
         $page,  # HTML::Templateオブジェクト
         $sprm,  # CGI::Sessionオブジェクト
     ) = @_;
-
-    # 単純置き換え パラメータ名配列
-    my @org_pname = (
-        "pg_name", "pg_name_f", "pg_naiyou", "fc_other_naiyou",
-        "fc_mochikomi", "pg_badprog",
-    );
 
     # テーブル変換 パラメータテーブル
     #   key: パラメータ名
@@ -212,6 +214,7 @@ sub html_out_program {
     #       key:パラメータ名
     #       value[0]:変換テーブル
     #       value[1]:その他内容パラメータ名
+    #       value[2]:注釈
     my %motikomi_pname = (
         "fc_vid"    => {
             "av-v"  =>      # 持ち込み映像機器映像接続形式",
@@ -222,6 +225,7 @@ sub html_out_program {
                     "other"     => "その他",
                     },
                     "av-v_velse",
+                    "映像接続",
                 ],
             "av-a"  =>      # 持ち込み映像機器音声接続形式
                 [   {
@@ -231,6 +235,7 @@ sub html_out_program {
                     "other" => "その他",
                     },
                     "av-a_velse",
+                    "音声接続",
                 ],
         },
         "fc_pc"     => {
@@ -242,6 +247,7 @@ sub html_out_program {
                     "other" => "その他",
                     },
                     "pc-v_velse",
+                    "映像接続",
                 ],
             "pc-a"  =>      # 持ち込みPC音声接続形式
                 [   {
@@ -251,6 +257,7 @@ sub html_out_program {
                     "other"     => "その他",
                     },
                     "pc-a_velse",
+                    "音声接続",
                 ],
         },
     );
@@ -280,10 +287,6 @@ sub html_out_program {
     my $pname;
     my $pAprm;
 
-    # 単純置き換え
-    foreach $pname ( @org_pname ) {
-	    $page->param( $pname => $sprm->param($pname));
-    }
     # テーブル変換(その他解釈込み)
     while ( ($pname, $pAprm) = each %tbl_pname ) {
         $page->param( $pname => cnv_radio_val($sprm, $pname, $pAprm ));
@@ -295,21 +298,28 @@ sub html_out_program {
     # 持ち込む/持ち込まない(追加項目解釈込み)
     while ( ($pname, $pAprm) = each %motikomi_pname ) {
         my $value = $motikomi_tbl{$sprm->param($pname)};
-	    $page->param( $pname => $value );
         if ( $value eq "持ち込む" ) {
             while ( my ($pn2, $pAp2) = each %$pAprm ) {
-                $page->param( $pn2 => cnv_radio_val($sprm, $pn2, $pAp2));
+                $value .= '<div class="indent">'
+                        . $pAp2->[2] . ':'
+                        . cnv_radio_val($sprm, $pn2, $pAp2)
+                        . '</div>'
             }
         }
+	    $page->param( $pname => $value );
     }
     # ネット接続に関する特殊処理
-    if ( $sprm->param("fc_pc") eq '0' ) {
+    if ( $motikomi_tbl{$sprm->param("fc_pc")} eq "持ち込む" ) {
         while ( ($pname, $pAprm) = each %lan_pname ) {
             my $value = cnv_radio_val($sprm, $pname, $pAprm);
-            $page->param( $pname => $value );
             if ( $value ne "接続しない" ) {
-                $page->param( "lanreason" => $sprm->param("lanreason") );
+                $value .= '<br/><b>利用方法</b>'
+                        . '<div class="indent">'
+                        . $sprm->param("lanreason")
+                        . '</div>';
             }
+            $value =~ s/[\r\n]+/<br\/>/mg;
+            $page->param( $pname => $value );
         }
     }
 }
@@ -338,13 +348,13 @@ sub cnv_useunuse_val {
     ) = @_;
 
     my $value = $sprm->param($pname) ? "使用する" : "使用しない";
-    if ( $opname ) {
-        $value .= '(' . $sprm->param($opname) . '本)';
+    if ( $opname && ( $value eq "使用する" ) ) {
+        $value .= ' (' . $sprm->param($opname) . '本)';
     }
     return ($value);
 }
 
-# 出演者情報
+# 出演者情報(LOOP)
 sub html_out_guest{
     my (
         $page,  # HTML::Templateオブジェクト
@@ -385,20 +395,6 @@ sub html_out_guest{
 		}
 	}
     $page->param(GUEST_LOOP => \@loop_data);
-}
-
-# 備考
-sub html_out_comment {
-    my (
-        $page,  # HTML::Templateオブジェクト
-        $sprm,  # CGI::Sessionオブジェクト
-    ) = @_;
-    my @org_pname = (   # 備考パラメータ名配列
-        "fc_comment",
-    );
-    foreach my $pname ( @org_pname ) {
-	    $page->param( $pname => $sprm->param($pname));
-    }
 }
 
 1;
