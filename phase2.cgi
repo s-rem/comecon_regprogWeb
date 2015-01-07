@@ -5,51 +5,39 @@ use CGI;
 use CGI::Session;
 use CGI::Carp qw(fatalsToBrowser); 
 use HTML::Template;
-use HTML::FillInForm;
 use SFCON::Register;
-
-use Data::Dumper;
 
 my $register = SFCON::Register->new;
 my $cgi = CGI->new;
 
+# セッションID = urlパラメータ||cookieからCGISESSID||取得できなかったらundef．
 my $sid=$cgi->param('ID')||$cgi->cookie('ID')||undef;
-#1.urlパラメータを探す．
-#2.cookieからCGISESSIDを探す
-#3.どちらも取得できなかったらundef．
 my $session=CGI::Session->new(undef,$sid,{Directory=>$register->session_dir()});
 
-my $input_page=HTML::Template->new(filename => 'phase2-tmpl.html');
-
-#4.取得したセッションidが有効ならそのまま．無効なら別のidを発番．
-
 if(defined $sid && $sid eq $session->id){
-#cookieかurlパラメータから値を取得でき，かつ有効なid
-
+    # 取得したセッションidが有効:確認画面表示
+    my $input_page=HTML::Template->new(filename => 'phase2-tmpl.html');
 	$input_page->param(ID => $session->id);
 	$session->param('phase', '2-1');
 
+    # テンプレートにパラメータを設定
     html_out_simple($input_page, $session);
     html_out_table($input_page, $session);
     html_out_guest($input_page, $session);
 
-	my $form_out = HTML::FillInForm->new;
-    # 事実上、mailform2にinputはないので$html_outは$input_page->output そのもの
-	my $html_out = $form_out->fill(
-		scalarref => \$input_page->output,
-		target => "mailform2",
-		fobject => $cgi
-	);
-	
+    # phase2-tmpl.htmlにinput項目はないので$input_page->output を出力
 	print $cgi->header(-charset=>'UTF-8', -expires=>'now');
-	print "\n\n".$html_out;
+	print "\n\n";
+    print $input_page->output;
 
 } else{
+    # 古いセッションを削除
 	if(defined $sid && $sid ne $session->id){
 		  $session->close;
 		  $session->delete;
 	}
-    $input_page=HTML::Template->new(filename => 'error.html');
+    # 取得したセッションidが無効:エラー画面表示
+    my $input_page=HTML::Template->new(filename => 'error.html');
 	print $cgi->header(-charset=>'UTF-8');
 	print "\n\n";
     print $input_page->output;

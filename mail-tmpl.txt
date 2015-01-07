@@ -1,7 +1,11 @@
+From: <TMPL_VAR NAME=FROMJ> <<TMPL_VAR NAME=FROMADDR>>
+To:   <TMPL_VAR NAME=TOADDR>
+Subject: お申込みメールアドレス確認
+
 <TMPL_VAR NAME=NAME> 様
 
-こちらは、第52回日本SF大会こいこん実行委員会です。
-この電子メールは、インターネットから こいこんの自主企画を
+こちらは、<TMPL_VAR NAME=FROMJ> です。
+この電子メールは、インターネットから <TMPL_VAR NAME=CONNAME>の自主企画を
 申し込まれた方に自動的に送信されています。
 
 申し込みを継続される場合は、12時間以内に下記のアドレスに
