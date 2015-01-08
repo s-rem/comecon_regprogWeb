@@ -9,7 +9,7 @@ our %CONDEF_CONST = (
     'FULLNAME'  => '第54回日本SF大会 米魂',
     'ENTADDR'   => 'program@comecon.com',
     'ENVFROM'   => 'program-return@comecon.com',
-    'PGSTAFF'   => 'program-operation@comecon.com',
+    'PGSTAFF'   => 'program-operater@comecon.com',
 );
 
 # 共通関数 mail送信
