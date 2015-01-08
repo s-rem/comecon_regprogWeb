@@ -1,12 +1,18 @@
+From: <TMPL_VAR NAME=FROMJ> <<TMPL_VAR NAME=FROMADDR>>
+To:   <TMPL_VAR NAME=TOADDR>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ISO-2022-JP"
+Subject: 企画申込完了通知
+
 <TMPL_VAR NAME=NAME> 様
 
-　こちらは第52回日本SF大会こいこん実行委員会です。
+　こちらは、<TMPL_VAR NAME=FROMJ> です。
 あなたの企画申込を受け付けました。
 
 　内容につきまして実行委員会で検討の上担当より連絡させていただきます。
 　実行委員会からの連絡をお待ちください。
 
-　4月末日までに連絡がない場合は program@koicon.com にお問い合わせください。
+　5月末日までに連絡がない場合は <TMPL_VAR NAME=FROMJ> にお問い合わせください。
 
 　プログレスレポート等で募集をされる内容がある方は別途ご相談ください。
 

@@ -1,15 +1,16 @@
-From: <TMPL_VAR NAME=FROMJ> <<TMPL_VAR NAME=FROMADDR>>
+From: <TMPL_VAR NAME=FULLNAME>実行委員会 <<TMPL_VAR NAME=FROMADDR>>
 To:   <TMPL_VAR NAME=TOADDR>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ISO-2022-JP"
 Subject: お申込みメールアドレス確認
 
 <TMPL_VAR NAME=NAME> 様
 
-こちらは、<TMPL_VAR NAME=FROMJ> です。
+こちらは、<TMPL_VAR NAME=FULLNAME>実行委員会 です。
 この電子メールは、インターネットから <TMPL_VAR NAME=CONNAME>の自主企画を
 申し込まれた方に自動的に送信されています。
 
-申し込みを継続される場合は、12時間以内に下記のアドレスに
-アクセスしてください。
+申し込みを継続される場合は、12時間以内に下記のURLにアクセスしてください。
 
 <TMPL_VAR NAME=URI>
 

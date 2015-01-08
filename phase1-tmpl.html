@@ -13,7 +13,7 @@
 <form name = "mailform" method="post" action="./phase1.cgi">
     <input type="hidden" name="ID" value="<TMPL_VAR NAME=ID>">
     <input type="hidden" name="_code" value="application">
-    <input type="hidden" name="orders" value="米魂企画申込み">
+    <input type="hidden" name="orders" value="<TMPL_VAR NAME="CONNAME">企画申込み">
     <input type="hidden" name="self" value="true">
     <h3>主催者情報</h3>
     <dl class="register"><table border="0" align="center" cellpadding="5">
@@ -22,7 +22,7 @@
                 <font color="blue">※</font>お名前：
             </td>
             <td >
-                <div class="rubytext">例：米田魂子</div>
+                <div class="rubytext">例：S田F子</div>
                 <input type="text" name="p1_name" value="" size="30">
             </td>
         </tr>
@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <td align="right" <TMPL_VAR NAME=C_CO_REG_NUMBER>>
-                <font color="blue">※</font>米魂登録番号：
+                <font color="blue">※</font><TMPL_VAR NAME="CONNAME">番号：
             </td>
             <td>
                 <input type="text" name="reg_num" value="9999" style="ime-mode: inactive;" size="40">
@@ -75,7 +75,7 @@
                 企画名称：
             </td>
             <td width = "450" >
-                <div class="rubytext">例：山陰SFの歴史</div>
+                <div class="rubytext">例：日本SFの歴史</div>
                 <input type="text" name="pg_name" size="30">
             </td>
         </tr>
@@ -84,7 +84,7 @@
                 フリガナ：
             </td>
             <td>
-                <div class="rubytext">例：サンインエスエフノレキシ</div>
+                <div class="rubytext">例：ニホンエスエフノレキシ</div>
                 <input type="text" name="pg_name_f" size="30">
             </td>
         </tr>
@@ -233,9 +233,9 @@
         <tr>
             <td align="right" <TMPL_VAR NAME=C_CO_PG_GUEST1>>１</td>
             <td valign="middle">
-                <div class="rubytext">例：赤井 孝美（イラストレーター、プロデューサー）</div>
+                <div class="rubytext">例：カーティス・ニュートン(キャプテン・フューチャー)</div>
                 <input type="text" name="pp1_name" size="30"><br>
-                <div class="rubytext">例：あかい たかみ</div>
+                <div class="rubytext">例：かーてぃす にゅーとん</div>
                 <input type="text" name="pp1_name_f" size="30">
             </td>
             <td <TMPL_VAR NAME=C_CO_PG_G1CON>>

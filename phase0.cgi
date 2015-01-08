@@ -15,10 +15,8 @@ use Encode::Guess qw/ utf8 shiftjis euc-jp 7bit-jis /;
 use Encode qw/ decode encode/;
 
 # 定数定義
-my $FROMJ    = '第54回日本SF大会米魂実行委員会';
-my $FROMADDR = 'program@koicon.com';
-my $CONNAME  = '米魂';
-my $ENVFROM  = 'program-return@koicon.com';
+our %CONDEF_CONST;
+require('const_conf.pl');
 
 # CGIパラメータ取得
 my $cgi = CGI->new;
@@ -52,21 +50,25 @@ if($reg_num ne '4321'){
 
 # mail本文の生成。
 my $mail_out = HTML::Template->new(filename => 'mail-tmpl.txt');
-$mail_out->param(FROMJ => $FROMJ);
-$mail_out->param(FROMADDR => $FROMADDR);
-$mail_out->param(TOADDR => $mailaddr);
-$mail_out->param(NAME => $name);
-$mail_out->param(CONNAME => $CONNAME);
-$mail_out->param(URI => $next_uri);
+$mail_out->param(FULLNAME   => $CONDEF_CONST{'FULLNAME'});
+$mail_out->param(FROMADDR   => $CONDEF_CONST{'ENTADDR'});
+$mail_out->param(TOADDR     => $mailaddr);
+$mail_out->param(NAME       => $name);
+$mail_out->param(CONNAME    => $CONDEF_CONST{'CONNAME'});
+$mail_out->param(URI        => $next_uri);
 
 #mail送信
-doMailSend( $ENVFROM, $mailaddr, $mail_out->output );
+#doMailSend( $CONDEF_CONST{'ENVFROM'}, $mailaddr, $mail_out->output );
 
 #htmlの生成/返却
-my $html_out = HTML::Template->new(filename => 'phase0-tmpl.html');
+my $page = HTML::Template->new(filename => 'phase0-tmpl.html');
+$page->param(CONNAME   => $CONDEF_CONST{'CONNAME'});
+$page->param(FULLNAME  => $CONDEF_CONST{'FULLNAME'});
+$page->param(CONPERIOD => $CONDEF_CONST{'CONPERIOD'});
+$page->param(MAILBODY => $mail_out->output );
 print $cgi->header(-charset=>'UTF-8');
 print "\n\n";
-print $html_out->output;
+print $page->output;
 
 exit;
 
