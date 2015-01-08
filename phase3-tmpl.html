@@ -16,24 +16,10 @@
     この画面と同じ内容がメールで届きます。
     ご確認ください。
 </dl>
+<hr/>
+<TMPL_INCLUDE NAME="prog_info.tmpl">
+<hr/>
 
-<h3>主催者情報</h3>
-<dl class="register">
-    <TMPL_VAR NAME=ORGANIZER><br>
-</dl>
-<h3>企画情報</h3>
-<dl class="register">
-    <TMPL_VAR NAME=PROGRAM><br>
-</dl>
-<h3>出演者情報</h3>
-<dl class="register">
-    <TMPL_VAR NAME=GUEST><br>
-</dl>
-<h3>備考欄</h3>
-<dl class="register">
-    <TMPL_VAR NAME=COMMENT><br>
-</dl>
-<input type="hidden" name="ID" value="<TMPL_VAR NAME=ID>">
 </article></div>
 
 <TMPL_INCLUDE NAME="footer.tmpl">

@@ -9,8 +9,8 @@ use HTML::FillInForm;
 use SFCON::Register;
 
 #定数定義
+require('pgreglib.pl');
 our %CONDEF_CONST;
-require('const_conf.pl');
 my $c_not_fill = 'bgcolor="red"';
 
 my $register = SFCON::Register->new;

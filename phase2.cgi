@@ -7,16 +7,22 @@ use CGI::Carp qw(fatalsToBrowser);
 use HTML::Template;
 use SFCON::Register;
 
+#定数定義
+require('pgreglib.pl');
+our %CONDEF_CONST;
+
 my $register = SFCON::Register->new;
 my $cgi = CGI->new;
 
 # セッションID = urlパラメータ||cookieからCGISESSID||取得できなかったらundef．
 my $sid=$cgi->param('ID')||$cgi->cookie('ID')||undef;
 my $session=CGI::Session->new(undef,$sid,{Directory=>$register->session_dir()});
+my $input_page;
+my $http_header;
 
 if(defined $sid && $sid eq $session->id){
     # 取得したセッションidが有効:確認画面表示
-    my $input_page=HTML::Template->new(filename => 'phase2-tmpl.html');
+    $input_page=HTML::Template->new(filename => 'phase2-tmpl.html');
 	$input_page->param(ID => $session->id);
 	$session->param('phase', '2-1');
 
@@ -25,11 +31,7 @@ if(defined $sid && $sid eq $session->id){
     html_out_table($input_page, $session);
     html_out_guest($input_page, $session);
 
-    # phase2-tmpl.htmlにinput項目はないので$input_page->output を出力
-	print $cgi->header(-charset=>'UTF-8', -expires=>'now');
-	print "\n\n";
-    print $input_page->output;
-
+	$http_header = $cgi->header(-charset=>'UTF-8', -expires=>'now');
 } else{
     # 古いセッションを削除
 	if(defined $sid && $sid ne $session->id){
@@ -37,11 +39,19 @@ if(defined $sid && $sid eq $session->id){
 		  $session->delete;
 	}
     # 取得したセッションidが無効:エラー画面表示
-    my $input_page=HTML::Template->new(filename => 'error.html');
-	print $cgi->header(-charset=>'UTF-8');
-	print "\n\n";
-    print $input_page->output;
+    $input_page=HTML::Template->new(filename => 'error.html');
+	$http_header = $cgi->header(-charset=>'UTF-8');
 }
+# 共通のTMPL変数置き換え
+$input_page->param(ID => $sid);
+$input_page->param(CONNAME   => $CONDEF_CONST{'CONNAME'});
+$input_page->param(FULLNAME  => $CONDEF_CONST{'FULLNAME'});
+$input_page->param(CONPERIOD => $CONDEF_CONST{'CONPERIOD'});
+
+print $http_header;
+print "\n\n";
+print $input_page->output;
+
 exit;
 
 # 単純置き換え

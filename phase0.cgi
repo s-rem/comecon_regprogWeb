@@ -5,7 +5,6 @@ use lib ((getpwuid($<))[7]) . '/local/lib/perl5';
 use strict;
 use CGI;
 use CGI::Session;
-use Net::SMTP;
 use CGI::Carp qw(fatalsToBrowser); 
 use HTML::Template;
 use File::Basename;
@@ -15,8 +14,8 @@ use Encode::Guess qw/ utf8 shiftjis euc-jp 7bit-jis /;
 use Encode qw/ decode encode/;
 
 # 定数定義
+require('pgreglib.pl');
 our %CONDEF_CONST;
-require('const_conf.pl');
 
 # CGIパラメータ取得
 my $cgi = CGI->new;
@@ -58,7 +57,8 @@ $mail_out->param(CONNAME    => $CONDEF_CONST{'CONNAME'});
 $mail_out->param(URI        => $next_uri);
 
 #mail送信
-#doMailSend( $CONDEF_CONST{'ENVFROM'}, $mailaddr, $mail_out->output );
+my $mbody = $mail_out->output;
+doMailSend( $CONDEF_CONST{'ENVFROM'}, [ $mailaddr, ], $mbody );
 
 #htmlの生成/返却
 my $page = HTML::Template->new(filename => 'phase0-tmpl.html');
@@ -72,22 +72,6 @@ print $page->output;
 
 exit;
 
-# mail送信
-sub doMailSend {
-    my (
-        $envfrom,   # EnvelopeFrom
-        $envto,     # EnvelopeTo
-        $body,      # メール本文
-    ) = @_;
-
-    my $smtp = Net::SMTP->new('127.0.0.1');
-    $smtp->mail($envfrom);
-    $smtp->to($envto);
-    $smtp->data();
-    $smtp->datasend( encode('7bit-jis', $body) );
-    $smtp->dataend();
-    $smtp->quit;
-}
 1;
 #end
 
