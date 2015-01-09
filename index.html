@@ -34,7 +34,7 @@
                 <td><input type="text" name="name" size="30" value="" ></td>
             </tr>
             <tr>
-                <td align="right">登録番号：</td>
+                <td align="right">米魂番号：</td>
                 <td>
                     <input type="text" name="reg_num" size="30" value="" ><br/>
                     ※ゲストの方は、「ゲスト」と入力してください<br/>
@@ -56,7 +56,7 @@
 function FormCheck() {
     var val = document.getElementsByName("mail")[0];
     var ret = true;
-    if (!val.value.match(/^[A-Za-z0-9]+[\w-]+@[\w\.-]+\.\w{2,}$/)) {
+    if (!val.value.match(/^[A-Za-z0-9]+[\w-]*@[\w\.-]+\.\w{2,}$/)) {
         alert( "メールアドレスが不正です。ご確認下さい" );
         ret = false;
         val.focus();
