@@ -1,7 +1,7 @@
 #!/usr/bin/perl
+use strict;
+use warnings;
 package SFCON::Register;
-
-use SFCON::Register_db;
 
 sub new {
     my $class = shift;

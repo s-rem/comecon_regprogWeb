@@ -3,14 +3,12 @@
 #
 use lib ((getpwuid($<))[7]) . '/local/lib/perl5';
 use strict;
+use warnings;
 use CGI;
 use CGI::Session;
 use CGI::Carp qw(fatalsToBrowser); 
 use HTML::Template;
-use File::Basename;
 use SFCON::Register;
-use Encode::Guess qw/ utf8 shiftjis euc-jp 7bit-jis /;
-use Encode qw/ decode encode/;
 
 # 定数定義
 require('pgreglib.pl');

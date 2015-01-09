@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 use lib ((getpwuid($<))[7]) . '/local/lib/perl5';
 use strict;
+use warnings;
 use CGI;
 use CGI::Session;
 use CGI::Carp qw(fatalsToBrowser); 
