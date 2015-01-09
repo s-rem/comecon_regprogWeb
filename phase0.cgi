@@ -9,7 +9,6 @@ use CGI::Carp qw(fatalsToBrowser);
 use HTML::Template;
 use File::Basename;
 use SFCON::Register;
-use SFCON::Register_db;
 use Encode::Guess qw/ utf8 shiftjis euc-jp 7bit-jis /;
 use Encode qw/ decode encode/;
 
@@ -22,8 +21,16 @@ my $cgi = CGI->new;
 my $name     = $cgi->param("name"); 
 my $mailaddr = $cgi->param("mail");
 my $reg_num  = $cgi->param("reg_num"); 
+my ($filename, $pathname) = fileparse($cgi->self_url);
 
-#セッション生成
+# 入力パラメータチェック
+if ( $mailaddr eq '' ) {
+    # メールアドレス未入力の時は移動しない
+	print $cgi->redirect($pathname . 'noma.html');
+    exit;
+}
+
+# セッション生成
 my $session;
 my $register = SFCON::Register->new;
 $session=CGI::Session->new(undef,undef,{Directory=>$register->session_dir()});
@@ -35,7 +42,6 @@ $session->param('p1_nafda', $name);     # セッション経由で引き渡す�
 $session->param('phase','1-1');         # セッション経由で引き渡す項目と値
 
 # 申し込みURL生成
-my ($filename, $pathname) = fileparse($cgi->self_url);
 ### >> for test comment
 #$pathname =~ s/^http:/https:/g ;
 ### << for test comment
@@ -48,11 +54,12 @@ if($reg_num ne '4321'){
 }
 
 # mail本文の生成。
-my $mail_out = HTML::Template->new(filename => 'mail-tmpl.txt');
-$mail_out->param(FULLNAME   => $CONDEF_CONST{'FULLNAME'});
+my $mail_out = HTML::Template->new(filename => 'mail-first-tmpl.txt');
+$mail_out->param(MIMENAME   => $CONDEF_CONST{'MIMENAME'});
 $mail_out->param(FROMADDR   => $CONDEF_CONST{'ENTADDR'});
 $mail_out->param(TOADDR     => $mailaddr);
 $mail_out->param(NAME       => $name);
+$mail_out->param(FULLNAME   => $CONDEF_CONST{'FULLNAME'});
 $mail_out->param(CONNAME    => $CONDEF_CONST{'CONNAME'});
 $mail_out->param(URI        => $next_uri);
 

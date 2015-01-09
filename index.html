@@ -24,7 +24,9 @@
         <table border="0" width="100%" >
             <input type="hidden" name="_code" value="application">
             <tr>
-                <td align="right">メールアドレス：</td>
+                <td align="right">
+                    <font color="red">必須</font>メールアドレス：
+                </td>
                 <td><input type="text" name="mail" size="30"></td>
             </tr>
             <tr>
@@ -41,7 +43,7 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <input type="submit" name="submit" value="メール送信">
+                    <input type="submit" name="submit" value="メール送信" onClick="return FormCheck();">
                 </td>
             </tr>
         </TABLE>
@@ -50,5 +52,17 @@
 <div class="footer">
     <footer>&copy;2014-2015 第54回日本SF大会 米魂</footer>
 </div>
+<script type="text/javascript">
+function FormCheck() {
+    var val = document.getElementsByName("mail")[0];
+    var ret = true;
+    if (!val.value.match(/^[A-Za-z0-9]+[\w-]+@[\w\.-]+\.\w{2,}$/)) {
+        alert( "メールアドレスが不正です。ご確認下さい" );
+        ret = false;
+        val.focus();
+    }
+    return ret;
+}
+</script>
 </div></body>
 </html>
