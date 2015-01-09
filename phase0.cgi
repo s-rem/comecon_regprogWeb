@@ -21,14 +21,6 @@ my $cgi = CGI->new;
 my $name     = $cgi->param("name"); 
 my $mailaddr = $cgi->param("mail");
 my $reg_num  = $cgi->param("reg_num"); 
-my ($filename, $pathname) = fileparse($cgi->self_url);
-
-# 入力パラメータチェック
-if ( $mailaddr eq '' ) {
-    # メールアドレス未入力の時は移動しない
-	print $cgi->redirect($pathname . 'noma.html');
-    exit;
-}
 
 # セッション生成
 my $session;
@@ -42,6 +34,7 @@ $session->param('p1_nafda', $name);     # セッション経由で引き渡す�
 $session->param('phase','1-1');         # セッション経由で引き渡す項目と値
 
 # 申し込みURL生成
+my ($filename, $pathname) = fileparse($cgi->self_url);
 ### >> for test comment
 #$pathname =~ s/^http:/https:/g ;
 ### << for test comment
