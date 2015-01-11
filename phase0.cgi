@@ -54,7 +54,7 @@ pgreglib::doMailSend( $CONDEF_CONST{'ENVFROM'}, [ $mailaddr, ], $mbody );
 #htmlの生成/返却
 my $page = HTML::Template->new(filename => 'phase0-tmpl.html');
 pgreglib::pg_stdHtmlTmpl_set($page, $session->id);
-if ( $reg_num eq $CONDEF_CONST{'SPREGNUM3'}) ) {
+if ( $reg_num eq $CONDEF_CONST{'SPREGNUM3'} ) {
     pgreglib::pg_HtmlMailChk_set($page, $mbody, undef );
 }
 print $cgi->header(-charset=>'UTF-8');

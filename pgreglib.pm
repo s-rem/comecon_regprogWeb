@@ -558,6 +558,84 @@ sub cnv_useunuse_val {
     return ($value);
 }
 
+# 共通関数 企画登録パラメータ生成(抽出)
+#   戻り値: 連想配列参照
+sub pg_createRegParam {
+	my (
+        $session,   # セッションオブジェクト(含企画パラメータ)
+        $pg_num,    # 企画番号(4文字数字)
+     ) = @_;
+	my %reg_param = ();
+
+=head 1 name
+	my(undef, undef, undef, $c_d, $c_m, $c_y,undef, undef, undef) = localtime(time);
+	$c_y += 1900;
+	$c_m += 1;
+	$mail_text = $mail_text . '"' . $pg_num . '","WEB","","","' . $c_y. '/' . $c_m . '/' . $c_d . '",';
+
+	# 主催者情報
+	$mail_text = $mail_text . '"' . strCheck($session->param('p1_name')) . '",';
+
+	$mail_text = $mail_text . '"' . strCheck($session->param('email')) . '","PC",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('reg_num')) . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('tel')) . '",';
+
+	$mail_text = $mail_text . '"' . strCheck($session->param('fax')) . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('hp')) . '",';
+
+	# 企画情報
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_name')) . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_name_f')) . '",';
+	$mail_text = $mail_text . '"' . $pg_kind_tbl{$session->param('pg_kind')} . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_kind2')) . '",';
+	$mail_text = $mail_text . '"' . $pg_place_tbl{$session->param('pg_place')} . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_place2')) . '",';
+	$mail_text = $mail_text . '"' . $pg_layout_tbl{$session->param('pg_layout')} . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_layout2')) . '",';
+	$mail_text = $mail_text . '"' . $pg_time_tbl{$session->param('pg_time')} . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_time2')) . '",';
+	$mail_text = $mail_text . '"' . $pg_koma_tbl{$session->param('pg_koma')} . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_koma2')) . '",';
+	$mail_text = $mail_text . '"' . $pg_ninzu_tbl{$session->param('pg_ninzu')} . '",';
+	$mail_text = $mail_text . '"' . $pg_naiyou_k_tbl{$session->param('pg_naiyou_k')} . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_naiyou')) . '",';
+	$mail_text = $mail_text . '"' . $pg_kiroku_kb_tbl{$session->param('pg_kiroku_kb')} . '",';
+	$mail_text = $mail_text . '"' . $pg_kiroku_ka_tbl{$session->param('pg_kiroku_kb')} . '",';
+	$mail_text = $mail_text . '"' . $pg_fc_wb_tbl{$session->param('fc_wb')} . '",';
+	$mail_text = $mail_text . '"' . $pg_fc_mic_a_tbl{$session->param('fc_mic_a')} . '",';
+	$mail_text = $mail_text . '"' . $pg_fc_mic_b_tbl{$session->param('fc_mic_b')} . '",';
+	$mail_text = $mail_text . '"' . $pg_fc_vid_tbl{$session->param('fc_vid')} . '",';
+	$mail_text = $mail_text . '"' . $pg_fc_pc_tbl{$session->param('fc_pc')} . '",';
+	$mail_text = $mail_text . '"' . $pg_fc_inet_tbl{$session->param('fc_inet')} . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('fc_naiyou')) . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('fc_mochikomi')) . '",';
+	$mail_text = $mail_text . '"' . $pg_enquete_tbl{$session->param('pg_enquete')} . '",';
+	$mail_text = $mail_text . '"' . strCheck($session->param('pg_badprog')) . '",';
+
+	# 出演者情報
+	for (my $i = 1; $i <= 8; $i++) {	# CONST: 出演者の最大値
+		$mail_text = $mail_text . '"' . strCheck($session->param('pp' . $i . '_name')) . '",';
+		$mail_text = $mail_text . '"' . strCheck($session->param('pp' . $i . '_name_f')) . '",';
+		$mail_text = $mail_text . '"' . $pg_ppn_con_tbl{$session->param('pp' . $i . '_con')} . '",';
+		$mail_text = $mail_text . '"' . $pg_ppn_grq_tbl{$session->param('pp'. $i . '_grq')} . '",';
+	}
+
+	$mail_text = $mail_text . '"' . strCheck($session->param('fc_comment')) . '"';
+
+	$mail_text = $mail_text . "\n";
+=cut
+    return(\%reg_param);
+}
+
+# 不正なキャラを削除して返す
+sub	strCheck {
+	my ($str) = @_;
+
+	$str =~ s/\r\n/_/g;	# 改行の削除
+	$str =~ s/\"/\'/g;	# " の削除
+	return($str);
+}
+
 # 共通関数 mail送信
 sub doMailSend {
     my (
