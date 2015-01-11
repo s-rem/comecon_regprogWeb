@@ -53,7 +53,7 @@ if(defined $sid && $sid eq $session->id){
     $Data::Dumper::Terse = 1; # 変数名を表示しないおまじない
     $mail_out->param(REGPRM_DUMP    => Dumper($pHreg_param));
     $mail_out->param(JSON_FNAME     => 'reg_' . $r_num . '.json');
-    $mail_out->param(REGPRM_JSON    => encodebase64(encode_json($pHreg_param)));
+    $mail_out->param(REGPRM_JSON    => encode_base64(encode_json($pHreg_param)));
     my $mbody2 = $mail_out->output;
     pgreglib::doMailSend( $CONDEF_CONST{'ENVFROM'},
                 [ $CONDEF_CONST{'PGSTAFF'}, ],

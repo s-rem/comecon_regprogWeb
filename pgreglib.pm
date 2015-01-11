@@ -25,12 +25,141 @@ our %CONDEF_CONST = (
 }
 
 #### 企画登録情報 テーブル定義
+# CGI値変換テーブル
+my %pg_kind_cnv = (         # 企画種別table
+    'K-A1'  => '講演',
+    'K-A2'  => 'パネルディスカッション',
+    'K-A3'  => '講座',
+    'K-A4'  => '上映',
+    'K-A5'  => '座談会',
+    'K-A6'  => 'お茶会',
+    'K-A7'  => 'ゲーム',
+    'K-B1'  => 'コンサート',
+    'K-C1'  => '展示',
+    'K-D1'  => '印刷物発行',
+    'K-E1'  => '投票',
+    'K-X1'  => 'その他',
+);
+my %pg_place_cnv = (        # 希望場所table
+    'P-N'   => '特になし',
+    'P-C1'  => '会議室',
+    'P-H1'  => '小ホール(300人)',
+    'P-X1'  => 'その他',
+);
+my %pg_layout_cnv = (       # レイアウトtable
+    '0' => 'シアター',
+    '1' => 'スクール',
+    '2' => 'ロの字',
+    '3' => '島組',
+    '9' => 'その他',
+);
+my %pg_time_cnv = (         # 希望日時table
+    'T-N'       => '特になし',
+    'T-1any'    => '29日(土)のどこでも',
+    'T-1am'     => '29日(土)午前',
+    'T-1pm'     => '29日(土)午後',
+    'T-1ngt'    => '29日(土)夜(パーティ後)',
+    'T-2any'    => '30日(日)のどこでも',
+    'T-2am'     => '30日(日)午前',
+    'T-2pm'     => '30日(日)午後',
+    'T-wday'    => '両日',
+    'T-X1'      => 'その他',
+);
+my %pg_koma_cnv = (         # 希望コマ数table
+    'TK-1'  => '１コマ(90分+準備30分)',
+    'TK-2'  => '２コマ(210分+準備30分)',
+    'TK-A'  => '終日',
+    'TK-X1' => 'その他',
+);
+my %pg_ninzu_cnv = (        # 予想参加者table
+    'TN-0'  => '不明',
+    'TN-1'  => '20人まで',
+    'TN-2'  => '50人まで',
+    'TN-3'  => '100人まで',
+    'TN-4'  => '200人まで',
+    'TN-5'  => '200人超',
+);
+my %pg_naiyou_k_cnv = (     # 内容事前公開table
+    'CX-0'  => '事前公開可',
+    'CX-1'  => '事前公開不可',
+);
+my %pg_kiroku_kb_cnv = (    # リアルタイム公開table
+    'CX-0'  => 'UST等動画を含む全て許可',
+    'CX-1'  => 'twitter等テキストと静止画公開可',
+    'CX-2'  => 'テキストのみ公開可',
+    'CX-3'  => '公開不可',
+    'CX-9'  => 'その他',
+);
+my %pg_kiroku_ka_cnv = (    # 事後公開table
+    'CX-0'  => 'UST等動画を含む全て許可',
+    'CX-1'  => 'blog等テキストと静止画公開可',
+    'CX-2'  => 'テキストのみ公開可',
+    'CX-3'  => '公開不可',
+    'CX-9'  => 'その他',
+);
+my %motikomi_cnv = (   # 持ち込む/持ち込まないtable
+    '0' => '持ち込む',
+    '1' => '持ち込まない',
+);
+my %av_v_cnv = (            # 持ち込み映像機器映像接続形式table
+    'hdmi'      => 'HDMI',
+    'svideo'    => 'S-Video',
+    'rca'       => 'RCAコンポジット(黄)',
+    'other'     => 'その他',
+);
+my %av_a_cnv = (            # 持ち込み映像機器音声接続形式table
+    'none'  => '不要',
+    'tsr'   => 'ステレオミニ(3.5mmTSR)',
+    'rca'   => 'RCAコンポジット(赤白)',
+    'other' => 'その他',
+);
+my %pc_v_cnv = (            # 持ち込みPC映像接続形式table
+    'none'  => '接続しない',
+    'hdmi'  => 'HDMI',
+    'vga'   => 'D-Sub15(VGA)',
+    'other' => 'その他',
+);
+my %pc_a_cnv = (            # 持ち込みPC音声接続形式table
+    'none'      => '不要',
+    'svideo'    => 'ステレオミニ(3.5mmTSR)',
+    'rca'       => 'RCAコンポジット(赤白)',
+    'other'     => 'その他',
+);
+my %lan_cnv = (             # ネット接続形式table
+    'none'  => '接続しない',
+    'lan'   => '有線(RJ-45)',
+    'wifi'  => '無線',
+    'other' => 'その他',
+);
+my %pg_enquete_cnv = (      # 企画経験table
+    '0' => '初めて',
+    '1' => '昨年に続いて2回目',
+    '2' => '継続して3〜5回目',
+    '3' => 'ひさしぶり',
+    '4' => '6回目以上',
+);
+my %ppn_youdo_cnv = (   # 自身出演table
+    '0' => 'する',
+    '1' => 'しない',
+);
+my %ppn_con_cnv = (     # 出演交渉table
+    'PP-A'  => '交渉を大会に依頼',
+    'PP-B1' => '出演了承済',
+    'PP-B2' => '交渉中',
+    'PP-B3' => '未交渉',
+);
+my %ppn_grq_cnv = (     # ゲスト申請table
+    'PP-A'  => 'する',
+    'PP-B'  => 'しない',
+);
+
+### HTMLテンプレート置き換え定義
 # 単純置き換え パラメータ名配列
 my @org_pname = (
-    "p1_name", "email", "reg_num", "tel", "fax", "cellphone",
-    "pg_name", "pg_name_f", "pg_naiyou", "fc_other_naiyou",
-    "fc_mochikomi", "pg_badprog",
-    "fc_comment",
+    'p1_name', 'email', 'reg_num', 'tel', 'fax', 'cellphone',
+    'pg_name', 'pg_name_f', 'pg_naiyou', 'fc_other_naiyou',
+    'fc_mochikomi', 'pg_badprog',
+    'fc_comment',
 );
 
 # テーブル変換 パラメータテーブル
@@ -38,126 +167,28 @@ my @org_pname = (
 #   value[0]:変換テーブル
 #   value[1]:その他内容パラメータ名
 my %tbl_pname = (
-    "pg_kind"   =>      # 企画種別table
-        [   {
-            "K-A1"  => "講演",
-            "K-A2"  => "パネルディスカッション",
-            "K-A3"  => "講座",
-            "K-A4"  => "上映",
-            "K-A5"  => "座談会",
-            "K-A6"  => "お茶会",
-            "K-A7"  => "ゲーム",
-            "K-B1"  => "コンサート",
-            "K-C1"  => "展示",
-            "K-D1"  => "印刷物発行",
-            "K-E1"  => "投票",
-            "K-X1"  => "その他",
-            },
-            "pg_kind2",
-        ],
-    "pg_place"  =>      # 希望場所table
-        [   {
-            "P-N"   => "特になし",
-            "P-C1"  => "会議室",
-            "P-H1"  => "小ホール(300人)",
-            "P-X1"  => "その他",
-            },
-            "pg_place2",
-        ],
-    "pg_layout"   =>    # レイアウトtable
-        [   {
-            "0" => "シアター",
-            "1" => "スクール",
-            "2" => "ロの字",
-            "3" => "島組",
-            "9" => "その他",
-            },
-            "pg_layout2",
-        ],
-    "pg_time"   =>      # 希望日時table
-        [   {
-            "T-N"       => "特になし",
-            "T-1any"    => "29日(土)のどこでも",
-            "T-1am"     => "29日(土)午前",
-            "T-1pm"     => "29日(土)午後",
-            "T-1ngt"    => "29日(土)夜(パーティ後)",
-            "T-2any"    => "30日(日)のどこでも",
-            "T-2am"     => "30日(日)午前",
-            "T-2pm"     => "30日(日)午後",
-            "T-wday"    => "両日",
-            "T-X1"      => "その他",
-            },
-            "pg_time2",
-        ],
-    "pg_koma"   =>      # 希望コマ数table
-        [   {
-            "TK-1"  => "１コマ(90分+準備30分)",
-            "TK-2"  => "２コマ(210分+準備30分)",
-            "TK-A"  => "終日",
-            "TK-X1" => "その他",
-            },
-            "pg_koma2",
-        ],
-    "pg_ninzu"  =>      # 予想参加者table
-        [   {
-            "TN-0"  => "不明",
-            "TN-1"  => "20人まで",
-            "TN-2"  => "50人まで",
-            "TN-3"  => "100人まで",
-            "TN-4"  => "200人まで",
-            "TN-5"  => "200人超",
-            },
-            undef,
-        ],
-    "pg_naiyou_k"   =>  # 内容事前公開table
-        [   {
-            "CX-0"  => "事前公開可",
-            "CX-1"  => "事前公開不可",
-            },
-            undef,
-        ],
-    "pg_kiroku_kb"  =>  # リアルタイム公開table
-        [   {
-            "CX-0"  => "UST等動画を含む全て許可",
-            "CX-1"  => "twitter等テキストと静止画公開可",
-            "CX-2"  => "テキストのみ公開可",
-            "CX-3"  => "公開不可",
-            "CX-9"  => "その他",
-            },
-            undef,
-        ],
-    "pg_kiroku_ka"  =>  # 事後公開table
-        [   {
-            "CX-0"  => "UST等動画を含む全て許可",
-            "CX-1"  => "blog等テキストと静止画公開可",
-            "CX-2"  => "テキストのみ公開可",
-            "CX-3"  => "公開不可",
-            "CX-9"  => "その他",
-            },
-            undef,
-        ],
-    "pg_enquete"    =>  # 企画経験table
-        [   {
-            "0" => "初めて",
-            "1" => "昨年に続いて2回目",
-            "2" => "継続して3〜5回目",
-            "3" => "ひさしぶり",
-            "4" => "6回目以上",
-            },
-            undef,
-        ],
+    'pg_kind'       => [ \%pg_kind_cnv,         'pg_kind2', ],
+    'pg_place'      => [ \%pg_place_cnv,        'pg_place2', ],
+    'pg_layout'     => [ \%pg_layout_cnv,       'pg_layout2', ],
+    'pg_time'       => [ \%pg_time_cnv,         'pg_time2', ],
+    'pg_koma'       => [ \%pg_koma_cnv,         'pg_koma2', ],
+    'pg_ninzu'      => [ \%pg_ninzu_cnv,        undef, ],
+    'pg_naiyou_k'   => [ \%pg_naiyou_k_cnv,     undef, ],
+    'pg_kiroku_kb'  => [ \%pg_kiroku_kb_cnv,    undef, ],
+    'pg_kiroku_ka'  => [ \%pg_kiroku_ka_cnv,    undef, ],
+    'pg_enquete'    => [ \%pg_enquete_cnv,      undef, ],
 );
 # 使用する/しない パラメータテーブル
 #   key: パラメータ名
 #   value: 本数パラメータ名
 my %useunuse_pname = (
-    "wbd"   =>  undef,
-    "mic"   =>  "miccnt",
-    "mic2"  =>  "mic2cnt",
-    "mon"   =>  undef,
-    "dvd"   =>  undef,
-    "bdp"   =>  undef,
-    "syo"   =>  undef,
+    'wbd'   =>  undef,
+    'mic'   =>  'miccnt',
+    'mic2'  =>  'mic2cnt',
+    'mon'   =>  undef,
+    'dvd'   =>  undef,
+    'bdp'   =>  undef,
+    'syo'   =>  undef,
 );
 
 # 持ち込む/持ち込まない パラメータテーブル
@@ -168,49 +199,16 @@ my %useunuse_pname = (
 #       value[1]:その他内容パラメータ名
 #       value[2]:注釈
 my %motikomi_pname = (
-    "fc_vid"    => {
-        "av-v"  =>      # 持ち込み映像機器映像接続形式",
-            [   {
-                "hdmi"      => "HDMI",
-                "svideo"    => "S-Video",
-                "rca"       => "RCAコンポジット(黄)",
-                "other"     => "その他",
-                },
-                "av-v_velse",
-                "映像接続",
-            ],
-        "av-a"  =>      # 持ち込み映像機器音声接続形式
-            [   {
-                "none"  => "不要",
-                "tsr"   => "ステレオミニ(3.5mmTSR)",
-                "rca"   => "RCAコンポジット(赤白)",
-                "other" => "その他",
-                },
-                "av-a_velse",
-                "音声接続",
-            ],
+    'fc_vid'    => {
+        # 持ち込み映像機器映像接続形式
+        'av-v'  => [ \%av_v_cnv,    'av-v_velse',   '映像接続', ],
+        # 持ち込み映像機器音声接続形式
+        'av-a'  => [ \%av_a_cnv,    'av-a_velse',   '音声接続', ],
     },
-    "fc_pc"     => {
-        "pc-v"  =>      # 持ち込みPC映像接続形式
-            [   {
-                "none"  => "接続しない",
-                "hdmi"  => "HDMI",
-                "vga"   => "D-Sub15(VGA)",
-                "other" => "その他",
-                },
-                "pc-v_velse",
-                "映像接続",
-            ],
-        "pc-a"  =>      # 持ち込みPC音声接続形式
-            [   {
-                "none"      => "不要",
-                "svideo"    => "ステレオミニ(3.5mmTSR)",
-                "rca"       => "RCAコンポジット(赤白)",
-                "other"     => "その他",
-                },
-                "pc-a_velse",
-                "音声接続",
-            ],
+    'fc_pc'     => {
+        # 持ち込みPC映像接続形式
+        'pc-v'  => [ \%pc_v_cnv,    'pc-v_velse',   '映像接続', ],
+        'pc-a'  => [ \%pc_a_cnv,    'pc-a_velse',   '音声接続', ],
     },
 );
 
@@ -220,37 +218,7 @@ my %motikomi_pname = (
 #   value[0]:変換テーブル
 #   value[1]:その他内容パラメータ名
 my %lan_pname = (
-    "lan"   =>
-        [   {
-            "none"  => "接続しない",
-            "lan"   => "有線(RJ-45)",
-            "wifi"  => "無線",
-            "other" => "その他",
-            },
-            "pc-l_velse",
-        ],
-);
-
-my %motikomi_tbl = (   # 持ち込む/持ち込まないtable
-    "0" => "持ち込む",
-    "1" => "持ち込まない",
-);
-
-my %ppn_youdo_tbl = (   # 自身出演table
-    "0" => "する",
-    "1" => "しない",
-);
-
-my %ppn_con_tbl = (     # 出演交渉table
-    "PP-A"  => "交渉を大会に依頼",
-    "PP-B1" => "出演了承済",
-    "PP-B2" => "交渉中",
-    "PP-B3" => "未交渉",
-);
-
-my %ppn_grq_tbl = (     # ゲスト申請table
-    "PP-A"  => "する",
-    "PP-B"  => "しない",
+    'lan'   => [ \%lan_cnv, 'pc-l_velse', ],
 );
 
 ## チェックテーブル定義
@@ -319,6 +287,69 @@ my %fc_pc_cond_tbl = (
     'pc-v'  =>  [ 'other', 'pc-v_velse',  'C_CO_PG_KIZAI', ],
     'pc-a'  =>  [ 'other', 'pc-a_velse',  'C_CO_PG_KIZAI', ],
     'lan'   =>  [ 'other', 'pc-l_velse',  'C_CO_PG_KIZAI', ],
+);
+
+# 登録メール用変数名ハッシュ
+#   key: パラメータ名
+#   val: undef:値使用   HASHREF:変換テーブル   0:使用する/しない
+my %h_pname4mail = (
+    # 申込者情報
+    'p1_name'       => undef,
+    'email'         => undef,
+    'reg_num'       => undef,
+    'tel'           => undef,
+    'fax'           => undef,
+    'cellphone'     => undef,
+	# 企画情報
+    'pg_name'       => undef,
+    'pg_name_f'     => undef,
+    'pg_kind'       => \%pg_kind_cnv,
+    'pg_kind2'      => undef,
+    'pg_place'      => \%pg_place_cnv,
+    'pg_place2'     => undef,
+    'pg_layout'     => \%pg_layout_cnv,
+    'pg_layout2'    => undef,
+    'pg_time'       => \%pg_time_cnv,
+    'pg_time2'      => undef,
+    'pg_koma'       => \%pg_koma_cnv,
+    'pg_koma2'      => undef,
+    'pg_ninzu'      => \%pg_ninzu_cnv,
+    'pg_naiyou_k'   => \%pg_naiyou_k_cnv,
+    'pg_naiyou'     => undef,
+    'pg_kiroku_kb'  => \%pg_kiroku_kb_cnv,
+    'pg_kiroku_ka'  => \%pg_kiroku_ka_cnv,
+    # 使用機材
+    'wbd'           => 0,
+    'mic'           => 0,
+    'miccnt'        => undef,
+    'mic2'          => 0,
+    'mic2cnt'       => undef,
+    'mon'           => 0,
+    'dvd'           => 0,
+    'bdp'           => 0,
+    'syo'           => 0,
+    'fc_other_naiyou'   => undef,
+    'fc_vid'        => \%motikomi_cnv,
+    'av-v'          => \%av_v_cnv,
+    'av-v_velse'    => undef,
+    'av-a'          => \%av_a_cnv,
+    'av-a_velse'    => undef,
+    'fc_pc'         => \%motikomi_cnv,
+    'pc-v'          => \%pc_v_cnv,
+    'pc-v_velse'    => undef,
+    'pc-a'          => \%pc_a_cnv,
+    'pc-a_velse'    => undef,
+    'lan'           => \%pc_a_cnv,
+    'pc-l_velse'    => undef,
+    'lanreason'     => undef,
+    'fc_mochikomi'  => undef,
+    # 企画経験
+    'pg_enquete'    => \%pg_enquete_cnv,
+    # 重なると困る企画
+    'pg_badprog'    => undef,
+    # 出演者情報
+    'youdo'         => \%ppn_youdo_cnv,
+    ## 申込者以外の出演者は、Loop処理するのでプログラム埋め込み
 );
 
 # 共通関数 HTMLテンプレート共通変数設定
@@ -482,8 +513,8 @@ sub pg_HtmlTmpl_set {
     }
     # 持ち込む/持ち込まない(追加項目解釈込み)
     while ( ($pname, $pAprm) = each %motikomi_pname ) {
-        my $value = $motikomi_tbl{$sprm->param($pname)};
-        if ( $value eq "持ち込む" ) {
+        my $value = $motikomi_cnv{$sprm->param($pname)};
+        if ( $value eq '持ち込む' ) {
             while ( my ($pn2, $pAp2) = each %$pAprm ) {
                 $value .= '<div class="indent">'
                         . $pAp2->[2] . ':'
@@ -494,13 +525,13 @@ sub pg_HtmlTmpl_set {
 	    $page->param( $pname => $value );
     }
     # ネット接続に関する特殊処理
-    if ( $motikomi_tbl{$sprm->param("fc_pc")} eq "持ち込む" ) {
+    if ( $motikomi_cnv{$sprm->param('fc_pc')} eq '持ち込む' ) {
         while ( ($pname, $pAprm) = each %lan_pname ) {
             my $value = cnv_radio_val($sprm, $pname, $pAprm);
-            if ( $value ne "接続しない" ) {
+            if ( $value ne '接続しない' ) {
                 $value .= '<br/><b>利用方法</b>'
                         . '<div class="indent">'
-                        . $sprm->param("lanreason")
+                        . $sprm->param('lanreason')
                         . '</div>';
             }
             $value =~ s/[\r\n]+/<br\/>/mg;
@@ -509,7 +540,7 @@ sub pg_HtmlTmpl_set {
     }
 
     # 出演者情報(LOOP)
-    $page->param( "youdo" => $ppn_youdo_tbl{$sprm->param("youdo")} );
+    $page->param( 'youdo' => $ppn_youdo_cnv{$sprm->param('youdo')} );
     my @loop_data = ();  # TMPL変数名=>値ハッシュ参照 の配列
     my $ppcnt;
 	for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {	# CONST: 出演者の最大値
@@ -517,11 +548,11 @@ sub pg_HtmlTmpl_set {
 		my $ppname = $sprm->param($prefix . '_name');
         if ( $ppname  ne '') {
             my %row_data;
-            $row_data{"pp_number"}  = $ppcnt;
-            $row_data{"pp_name"}    = $ppname;
-			$row_data{"pp_name_f"}  = $sprm->param($prefix . '_name_f');
-            $row_data{"pp_con"} = $ppn_con_tbl{$sprm->param($prefix . '_con')};
-            $row_data{"pp_grq"} = $ppn_grq_tbl{$sprm->param($prefix . '_grq')};
+            $row_data{'pp_number'}  = $ppcnt;
+            $row_data{'pp_name'}    = $ppname;
+			$row_data{'pp_name_f'}  = $sprm->param($prefix . '_name_f');
+            $row_data{'pp_con'} = $ppn_con_cnv{$sprm->param($prefix . '_con')};
+            $row_data{'pp_grq'} = $ppn_grq_cnv{$sprm->param($prefix . '_grq')};
             push(@loop_data, \%row_data);
 		}
 	}
@@ -537,7 +568,7 @@ sub cnv_radio_val {
     ) = @_;
 
     my $value = $pAprm->[0]->{$sprm->param($pname)};
-    if ( ( $pAprm->[1] ne undef ) and ( $value eq "その他" ) ) {
+    if ( ( $pAprm->[1] ne undef ) and ( $value eq 'その他' ) ) {
         $value .= '(' . $sprm->param($pAprm->[1]) . ')';
     }
     return ($value);
@@ -551,8 +582,8 @@ sub cnv_useunuse_val {
         $opname,    # 追加情報パラメータ名 undef:なし
     ) = @_;
 
-    my $value = $sprm->param($pname) ? "使用する" : "使用しない";
-    if ( $opname && ( $value eq "使用する" ) ) {
+    my $value = $sprm->param($pname) ? '使用する' : '使用しない';
+    if ( $opname && ( $value eq '使用する' ) ) {
         $value .= ' (' . $sprm->param($opname) . '本)';
     }
     return ($value);
@@ -562,78 +593,34 @@ sub cnv_useunuse_val {
 #   戻り値: 連想配列参照
 sub pg_createRegParam {
 	my (
-        $session,   # セッションオブジェクト(含企画パラメータ)
+        $sprm,      # セッションオブジェクト(含企画パラメータ)
         $pg_num,    # 企画番号(4文字数字)
      ) = @_;
 	my %reg_param = ();
 
-=head 1 name
-	my(undef, undef, undef, $c_d, $c_m, $c_y,undef, undef, undef) = localtime(time);
+	my($c_d, $c_m, $c_y) = (localtime(time))[3,4,5];
 	$c_y += 1900;
 	$c_m += 1;
-	$mail_text = $mail_text . '"' . $pg_num . '","WEB","","","' . $c_y. '/' . $c_m . '/' . $c_d . '",';
+    $reg_param{'prog_no'}   = $pg_num;
+    $reg_param{'regdate'}   = $c_y. '/' . $c_m . '/' . $c_d;
+    
+    # %h_pname4mailの定義に従って値設定 
+    #   key: パラメータ名
+    #   val: undef:値使用   HASHREF:変換テーブル   0:使用する/しない
+    #!!!
 
-	# 主催者情報
-	$mail_text = $mail_text . '"' . strCheck($session->param('p1_name')) . '",';
-
-	$mail_text = $mail_text . '"' . strCheck($session->param('email')) . '","PC",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('reg_num')) . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('tel')) . '",';
-
-	$mail_text = $mail_text . '"' . strCheck($session->param('fax')) . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('hp')) . '",';
-
-	# 企画情報
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_name')) . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_name_f')) . '",';
-	$mail_text = $mail_text . '"' . $pg_kind_tbl{$session->param('pg_kind')} . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_kind2')) . '",';
-	$mail_text = $mail_text . '"' . $pg_place_tbl{$session->param('pg_place')} . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_place2')) . '",';
-	$mail_text = $mail_text . '"' . $pg_layout_tbl{$session->param('pg_layout')} . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_layout2')) . '",';
-	$mail_text = $mail_text . '"' . $pg_time_tbl{$session->param('pg_time')} . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_time2')) . '",';
-	$mail_text = $mail_text . '"' . $pg_koma_tbl{$session->param('pg_koma')} . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_koma2')) . '",';
-	$mail_text = $mail_text . '"' . $pg_ninzu_tbl{$session->param('pg_ninzu')} . '",';
-	$mail_text = $mail_text . '"' . $pg_naiyou_k_tbl{$session->param('pg_naiyou_k')} . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_naiyou')) . '",';
-	$mail_text = $mail_text . '"' . $pg_kiroku_kb_tbl{$session->param('pg_kiroku_kb')} . '",';
-	$mail_text = $mail_text . '"' . $pg_kiroku_ka_tbl{$session->param('pg_kiroku_kb')} . '",';
-	$mail_text = $mail_text . '"' . $pg_fc_wb_tbl{$session->param('fc_wb')} . '",';
-	$mail_text = $mail_text . '"' . $pg_fc_mic_a_tbl{$session->param('fc_mic_a')} . '",';
-	$mail_text = $mail_text . '"' . $pg_fc_mic_b_tbl{$session->param('fc_mic_b')} . '",';
-	$mail_text = $mail_text . '"' . $pg_fc_vid_tbl{$session->param('fc_vid')} . '",';
-	$mail_text = $mail_text . '"' . $pg_fc_pc_tbl{$session->param('fc_pc')} . '",';
-	$mail_text = $mail_text . '"' . $pg_fc_inet_tbl{$session->param('fc_inet')} . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('fc_naiyou')) . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('fc_mochikomi')) . '",';
-	$mail_text = $mail_text . '"' . $pg_enquete_tbl{$session->param('pg_enquete')} . '",';
-	$mail_text = $mail_text . '"' . strCheck($session->param('pg_badprog')) . '",';
-
-	# 出演者情報
-	for (my $i = 1; $i <= 8; $i++) {	# CONST: 出演者の最大値
-		$mail_text = $mail_text . '"' . strCheck($session->param('pp' . $i . '_name')) . '",';
-		$mail_text = $mail_text . '"' . strCheck($session->param('pp' . $i . '_name_f')) . '",';
-		$mail_text = $mail_text . '"' . $pg_ppn_con_tbl{$session->param('pp' . $i . '_con')} . '",';
-		$mail_text = $mail_text . '"' . $pg_ppn_grq_tbl{$session->param('pp'. $i . '_grq')} . '",';
+	# 出演者情報:Loop処理なので埋め込み
+    my $ppcnt;
+	for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {	# CONST: 出演者の最大値
+        my $prefix = 'pp' . $ppcnt;
+        $reg_param{$prefix . '_name'}   = $sprm->param($prefix . '_name');
+        $reg_param{$prefix . '_name_f'} = $sprm->param($prefix . '_name_f');
+        $reg_param{$prefix . '_con'}
+            = $ppn_con_cnv{$sprm->param($prefix . '_con')};
+        $reg_param{$prefix . '_grq'}
+            = $ppn_grq_cnv{$sprm->param($prefix . '_grq')};
 	}
-
-	$mail_text = $mail_text . '"' . strCheck($session->param('fc_comment')) . '"';
-
-	$mail_text = $mail_text . "\n";
-=cut
     return(\%reg_param);
-}
-
-# 不正なキャラを削除して返す
-sub	strCheck {
-	my ($str) = @_;
-
-	$str =~ s/\r\n/_/g;	# 改行の削除
-	$str =~ s/\"/\'/g;	# " の削除
-	return($str);
 }
 
 # 共通関数 mail送信
