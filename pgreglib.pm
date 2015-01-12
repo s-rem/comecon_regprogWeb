@@ -301,7 +301,7 @@ my %h_pname4mail = (
     'tel'           => ['電話番号', undef],
     'fax'           => ['FAX番号', undef],
     'cellphone'     => ['携帯番号', undef],
-	# 企画情報
+    # 企画情報
     'pg_name'       => ['企画名', undef],
     'pg_name_f'     => ['企画名ふりが', undef],
     'pg_kind'       => ['企画種別', \%pg_kind_cnv],
@@ -393,14 +393,14 @@ sub pg_stdMailTmpl_set {
 
 # 共通(ではないが、企画項目依存処理)関数 入力値チェック
 sub pg_input_check {
-	my (
+    my (
         $page,      # HTML::Templateオブジェクト
         $cgi,       # CGIオブジェクト
     ) = @_;
 
     my $c_not_fill = 'bgcolor="red"';
     my %AfailVnames = ();   # エラーTMPL変数名ハッシュ(値はダミー)
-	
+
     # 必須項目チェック
     while ( my ( $pname, $vname ) = each( %needs_tbl ) ) {
         if ( $cgi->param($pname) eq '' ) {
@@ -428,7 +428,7 @@ sub pg_input_check {
              && ( $cgi->param($vAprm->[0]) <= 0 ) ) {
             $AfailVnames{$vAprm->[1]} = 1;
         }
-	}
+    }
 
     if ( $cgi->param('fc_vid') eq '0' ) {
         # 必須項目チェック
@@ -464,28 +464,28 @@ sub pg_input_check {
              ( $cgi->param('lanreason') eq '' )   ) {
             $AfailVnames{'C_CO_PG_KIZAI'} = 1;
         }
-	}
+    }
 
     # 出演者情報
     my $ppcnt;
-	for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {	# CONST: 出演者の最大値
+    for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {   # CONST: 出演者の最大値
         my $ppname      = 'pp' . $ppcnt . '_name';
         my $ppname_f    = 'pp' . $ppcnt . '_name_f';
         my $ppcon       = 'pp' . $ppcnt . '_con';
         my $ppgrq       = 'pp' . $ppcnt . '_grq';
         my $CCOPG       = 'C_CO_PG_GUEST' . $ppcnt;
-	    if ($cgi->param($ppname) ne '' || $cgi->param($ppname_f) ne ''){
-		    if ($cgi->param($ppname) eq '' || $cgi->param($ppname_f) eq '' ||
+        if ($cgi->param($ppname) ne '' || $cgi->param($ppname_f) ne ''){
+            if ($cgi->param($ppname) eq '' || $cgi->param($ppname_f) eq '' ||
                 $cgi->param($ppcon)  eq '' || $cgi->param($ppgrq) eq ''){
                 $AfailVnames{$CCOPG} = 1;
-		    }
-	    }
+            }
+        }
     }
     foreach my $vname ( keys( %AfailVnames ) ) {
         $page->param($vname => $c_not_fill);
     }
 
-	return( scalar(%AfailVnames) ? 1 : 0 );
+    return( scalar(%AfailVnames) ? 1 : 0 );
 }
 
 # 共通関数 テンプレート変数設定
@@ -502,7 +502,7 @@ sub pg_HtmlTmpl_set {
     foreach $pname ( @org_pname ) {
         my $value = $sprm->param($pname);
         $value =~ s/[\r\n]+/<br\/>/mg;
-	    $page->param( $pname => $value );
+        $page->param( $pname => $value );
     }
     # テーブル変換(その他解釈込み)
     while ( ($pname, $pAprm) = each %tbl_pname ) {
@@ -510,7 +510,7 @@ sub pg_HtmlTmpl_set {
     }
     # 使用する/しない(本数解釈込み)
     while ( ($pname, $pAprm) = each %useunuse_pname ) {
-	    $page->param( $pname => cnv_useunuse_val($sprm, $pname, $pAprm));
+        $page->param( $pname => cnv_useunuse_val($sprm, $pname, $pAprm));
     }
     # 持ち込む/持ち込まない(追加項目解釈込み)
     while ( ($pname, $pAprm) = each %motikomi_pname ) {
@@ -523,7 +523,7 @@ sub pg_HtmlTmpl_set {
                         . '</div>'
             }
         }
-	    $page->param( $pname => $value );
+        $page->param( $pname => $value );
     }
     # ネット接続に関する特殊処理
     if ( $motikomi_cnv{$sprm->param('fc_pc')} eq '持ち込む' ) {
@@ -544,19 +544,19 @@ sub pg_HtmlTmpl_set {
     $page->param( 'youdo' => $ppn_youdo_cnv{$sprm->param('youdo')} );
     my @loop_data = ();  # TMPL変数名=>値ハッシュ参照 の配列
     my $ppcnt;
-	for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {	# CONST: 出演者の最大値
+    for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {   # CONST: 出演者の最大値
         my $prefix = 'pp' . $ppcnt;
-		my $ppname = $sprm->param($prefix . '_name');
+        my $ppname = $sprm->param($prefix . '_name');
         if ( $ppname  ne '') {
             my %row_data;
             $row_data{'pp_number'}  = $ppcnt;
             $row_data{'pp_name'}    = $ppname;
-			$row_data{'pp_name_f'}  = $sprm->param($prefix . '_name_f');
+            $row_data{'pp_name_f'}  = $sprm->param($prefix . '_name_f');
             $row_data{'pp_con'} = $ppn_con_cnv{$sprm->param($prefix . '_con')};
             $row_data{'pp_grq'} = $ppn_grq_cnv{$sprm->param($prefix . '_grq')};
             push(@loop_data, \%row_data);
-		}
-	}
+        }
+    }
     $page->param(GUEST_LOOP => \@loop_data);
 }
 
@@ -593,15 +593,15 @@ sub cnv_useunuse_val {
 # 共通関数 企画登録パラメータ生成(抽出)
 #   戻り値: 連想配列参照
 sub pg_createRegParam {
-	my (
+    my (
         $sprm,      # セッションオブジェクト(含企画パラメータ)
         $pg_num,    # 企画番号(4文字数字)
      ) = @_;
-	my %reg_param = ();
+    my %reg_param = ();
 
-	my($c_d, $c_m, $c_y) = (localtime(time))[3,4,5];
-	$c_y += 1900;
-	$c_m += 1;
+    my($c_d, $c_m, $c_y) = (localtime(time))[3,4,5];
+    $c_y += 1900;
+    $c_m += 1;
     $reg_param{'prog_no'}   = $pg_num;
     $reg_param{'regdate'}   = $c_y. '/' . $c_m . '/' . $c_d;
     
@@ -611,29 +611,31 @@ sub pg_createRegParam {
     #      : [1]:undef:値使用 0:使用する/しない HASHREF:変換テーブル   
     #!!!
     while ( my ($pname, $pAval) = each(%h_pname4mail)) {
-        if ( $pAval->[1] == undef ) {
-            $reg_param{$pAval->[0]} = $sprm->param($pname);
-        } elsif ( $pAval->[1] == 0 ) {
-            $reg_param{$pAval->[0]} = ($sprm->param($pname)) ? '使用する'
-                                                              : '使用しない';
+        my $val = $sprm->param($pname) || '';
+        if ( !defined($pAval->[1]) ) {
+            $reg_param{$pAval->[0]} = $val
+        } elsif ( $pAval->[1] eq 0 ) {
+            $reg_param{$pAval->[0]} = ($val) ? '使用する' : '使用しない';
         } else {
-            $reg_param{$pAval->[0]} = $pAval->[1]->{$sprm->param($pname)};
+            $reg_param{$pAval->[0]} = $pAval->[1]->{$val} || '';
         }
     }
 
-	# 出演者情報:Loop処理なので埋め込み
+    # 出演者情報:Loop処理なので埋め込み
     my $ppcnt;
-	for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {	# CONST: 出演者の最大値
+    for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {   # CONST: 出演者の最大値
         my $prefix = 'pp' . $ppcnt;
-        $reg_param{'出演者氏名' . $ppcnt}
-		    = $sprm->param($prefix . '_name');
-        $reg_param{'出演者氏名ふりがな' . $ppcnt}
-		    = $sprm->param($prefix . '_name_f');
-        $reg_param{'出演交渉' . $ppcnt}
-            = $ppn_con_cnv{$sprm->param($prefix . '_con')};
-        $reg_param{'ゲスト申請' . $ppcnt}
-            = $ppn_grq_cnv{$sprm->param($prefix . '_grq')};
-	}
+        if ( defined($sprm->param($prefix . '_name')) ) {
+            $reg_param{'出演者氏名' . $ppcnt}
+                = $sprm->param($prefix . '_name');
+            $reg_param{'出演者氏名ふりがな' . $ppcnt}
+                = $sprm->param($prefix . '_name_f');
+            $reg_param{'出演交渉' . $ppcnt}
+                = $ppn_con_cnv{$sprm->param($prefix . '_con')};
+            $reg_param{'ゲスト申請' . $ppcnt}
+                = $ppn_grq_cnv{$sprm->param($prefix . '_grq')};
+        }
+    }
     return(\%reg_param);
 }
 
