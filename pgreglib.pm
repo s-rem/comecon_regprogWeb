@@ -291,64 +291,65 @@ my %fc_pc_cond_tbl = (
 
 # 登録メール用変数名ハッシュ
 #   key: パラメータ名
-#   val: undef:値使用   HASHREF:変換テーブル   0:使用する/しない
+#   val: [0]:項目名
+#      : [1]:undef:値使用 0:使用する/しない HASHREF:変換テーブル   
 my %h_pname4mail = (
     # 申込者情報
-    'p1_name'       => undef,
-    'email'         => undef,
-    'reg_num'       => undef,
-    'tel'           => undef,
-    'fax'           => undef,
-    'cellphone'     => undef,
+    'p1_name'       => ['申込者名', undef],
+    'email'         => ['メールアドレス', undef],
+    'reg_num'       => ['米魂番号', undef],
+    'tel'           => ['電話番号', undef],
+    'fax'           => ['FAX番号', undef],
+    'cellphone'     => ['携帯番号', undef],
 	# 企画情報
-    'pg_name'       => undef,
-    'pg_name_f'     => undef,
-    'pg_kind'       => \%pg_kind_cnv,
-    'pg_kind2'      => undef,
-    'pg_place'      => \%pg_place_cnv,
-    'pg_place2'     => undef,
-    'pg_layout'     => \%pg_layout_cnv,
-    'pg_layout2'    => undef,
-    'pg_time'       => \%pg_time_cnv,
-    'pg_time2'      => undef,
-    'pg_koma'       => \%pg_koma_cnv,
-    'pg_koma2'      => undef,
-    'pg_ninzu'      => \%pg_ninzu_cnv,
-    'pg_naiyou_k'   => \%pg_naiyou_k_cnv,
-    'pg_naiyou'     => undef,
-    'pg_kiroku_kb'  => \%pg_kiroku_kb_cnv,
-    'pg_kiroku_ka'  => \%pg_kiroku_ka_cnv,
+    'pg_name'       => ['企画名', undef],
+    'pg_name_f'     => ['企画名ふりが', undef],
+    'pg_kind'       => ['企画種別', \%pg_kind_cnv],
+    'pg_kind2'      => ['企画種別その他内容', undef],
+    'pg_place'      => ['希望場所', \%pg_place_cnv],
+    'pg_place2'     => ['希望場所その他内容', undef],
+    'pg_layout'     => ['希望レイアウト', \%pg_layout_cnv],
+    'pg_layout2'    => ['希望レイアウトその他内容', undef],
+    'pg_time'       => ['希望時刻', \%pg_time_cnv],
+    'pg_time2'      => ['希望時刻その他内容', undef],
+    'pg_koma'       => ['希望コマ数', \%pg_koma_cnv],
+    'pg_koma2'      => ['希望コマ数その他内容', undef],
+    'pg_ninzu'      => ['予想人数', \%pg_ninzu_cnv],
+    'pg_naiyou_k'   => ['内容事前公開', \%pg_naiyou_k_cnv],
+    'pg_naiyou'     => ['企画内容', undef],
+    'pg_kiroku_kb'  => ['リアルタイム公開', \%pg_kiroku_kb_cnv],
+    'pg_kiroku_ka'  => ['事後公開', \%pg_kiroku_ka_cnv],
     # 使用機材
-    'wbd'           => 0,
-    'mic'           => 0,
-    'miccnt'        => undef,
-    'mic2'          => 0,
-    'mic2cnt'       => undef,
-    'mon'           => 0,
-    'dvd'           => 0,
-    'bdp'           => 0,
-    'syo'           => 0,
-    'fc_other_naiyou'   => undef,
-    'fc_vid'        => \%motikomi_cnv,
-    'av-v'          => \%av_v_cnv,
-    'av-v_velse'    => undef,
-    'av-a'          => \%av_a_cnv,
-    'av-a_velse'    => undef,
-    'fc_pc'         => \%motikomi_cnv,
-    'pc-v'          => \%pc_v_cnv,
-    'pc-v_velse'    => undef,
-    'pc-a'          => \%pc_a_cnv,
-    'pc-a_velse'    => undef,
-    'lan'           => \%pc_a_cnv,
-    'pc-l_velse'    => undef,
-    'lanreason'     => undef,
-    'fc_mochikomi'  => undef,
+    'wbd'           => ['ホワイトボード', 0],
+    'mic'           => ['壇上マイク', 0],
+    'miccnt'        => ['壇上マイク本数', undef],
+    'mic2'          => ['客席マイク', 0],
+    'mic2cnt'       => ['客席マイク本数', undef],
+    'mon'           => ['モニタ/スクリーン', 0],
+    'dvd'           => ['DVDプレイヤー', 0],
+    'bdp'           => ['BDプレイヤー', 0],
+    'syo'           => ['書画カメラ', 0],
+    'fc_other_naiyou'   => ['その他要望機材', undef],
+    'fc_vid'        => ['持ち込み映像機器', \%motikomi_cnv],
+    'av-v'          => ['映像機器映像接続', \%av_v_cnv],
+    'av-v_velse'    => ['映像機器映像接続その他内容', undef],
+    'av-a'          => ['映像機器音声接続', \%av_a_cnv],
+    'av-a_velse'    => ['映像機器音声接続その他内容', undef],
+    'fc_pc'         => ['持ち込みPC', \%motikomi_cnv],
+    'pc-v'          => ['PC映像接続', \%pc_v_cnv],
+    'pc-v_velse'    => ['PC映像接続その他内容', undef],
+    'pc-a'          => ['PC音声接続', \%pc_a_cnv],
+    'pc-a_velse'    => ['PC音声接続その他内容', undef],
+    'lan'           => ['PC-LAN接続', \%pc_a_cnv],
+    'pc-l_velse'    => ['PC-LAN接続その他内容', undef],
+    'lanreason'     => ['LAN利用目的', undef],
+    'fc_mochikomi'  => ['その他持ち込み機材', undef],
     # 企画経験
-    'pg_enquete'    => \%pg_enquete_cnv,
+    'pg_enquete'    => ['企画経験', \%pg_enquete_cnv],
     # 重なると困る企画
-    'pg_badprog'    => undef,
+    'pg_badprog'    => ['重なると困る企画', undef],
     # 出演者情報
-    'youdo'         => \%ppn_youdo_cnv,
+    'youdo'         => ['申込者出演', \%ppn_youdo_cnv],
     ## 申込者以外の出演者は、Loop処理するのでプログラム埋め込み
 );
 
@@ -606,18 +607,31 @@ sub pg_createRegParam {
     
     # %h_pname4mailの定義に従って値設定 
     #   key: パラメータ名
-    #   val: undef:値使用   HASHREF:変換テーブル   0:使用する/しない
+    #   val: [0]:項目名
+    #      : [1]:undef:値使用 0:使用する/しない HASHREF:変換テーブル   
     #!!!
+    while ( my ($pname, $pAval) = each(%h_pname4mail)) {
+        if ( $pAval->[1] == undef ) {
+            $reg_param{$pAval->[0]} = $sprm->param($pname);
+        } elsif ( $pAval->[1] == 0 ) {
+            $reg_param{$pAval->[0]} = ($sprm->param($pname)) ? '使用する'
+                                                              : '使用しない';
+        } else {
+            $reg_param{$pAval->[0]} = $pAval->[1]->{$sprm->param($pname)};
+        }
+    }
 
 	# 出演者情報:Loop処理なので埋め込み
     my $ppcnt;
 	for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {	# CONST: 出演者の最大値
         my $prefix = 'pp' . $ppcnt;
-        $reg_param{$prefix . '_name'}   = $sprm->param($prefix . '_name');
-        $reg_param{$prefix . '_name_f'} = $sprm->param($prefix . '_name_f');
-        $reg_param{$prefix . '_con'}
+        $reg_param{'出演者氏名' . $ppcnt}
+		    = $sprm->param($prefix . '_name');
+        $reg_param{'出演者氏名ふりがな' . $ppcnt}
+		    = $sprm->param($prefix . '_name_f');
+        $reg_param{'出演交渉' . $ppcnt}
             = $ppn_con_cnv{$sprm->param($prefix . '_con')};
-        $reg_param{$prefix . '_grq'}
+        $reg_param{'ゲスト申請' . $ppcnt}
             = $ppn_grq_cnv{$sprm->param($prefix . '_grq')};
 	}
     return(\%reg_param);
