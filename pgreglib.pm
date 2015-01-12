@@ -303,7 +303,7 @@ my %h_pname4mail = (
     'cellphone'     => ['携帯番号', undef],
     # 企画情報
     'pg_name'       => ['企画名', undef],
-    'pg_name_f'     => ['企画名ふりが', undef],
+    'pg_name_f'     => ['企画名ふりがな', undef],
     'pg_kind'       => ['企画種別', \%pg_kind_cnv],
     'pg_kind2'      => ['企画種別その他内容', undef],
     'pg_place'      => ['希望場所', \%pg_place_cnv],
