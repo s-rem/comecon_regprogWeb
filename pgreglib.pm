@@ -625,7 +625,8 @@ sub pg_createRegParam {
     my $ppcnt;
     for ($ppcnt = 1; $ppcnt <= 8; $ppcnt++) {   # CONST: 出演者の最大値
         my $prefix = 'pp' . $ppcnt;
-        if ( defined($sprm->param($prefix . '_name')) ) {
+        if (    defined($sprm->param($prefix . '_name') )
+             && ( $sprm->param($prefix . '_name') ne '' ) ) {
             $reg_param{'出演者氏名' . $ppcnt}
                 = $sprm->param($prefix . '_name');
             $reg_param{'出演者氏名ふりがな' . $ppcnt}
