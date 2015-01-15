@@ -187,7 +187,6 @@ my %useunuse_pname = (
     'mic2'  =>  'mic2cnt',
     'mon'   =>  undef,
     'dvd'   =>  undef,
-    'bdp'   =>  undef,
     'syo'   =>  undef,
 );
 
@@ -326,8 +325,7 @@ my %h_pname4mail = (
     'mic2'          => ['客席マイク', 0],
     'mic2cnt'       => ['客席マイク本数', undef],
     'mon'           => ['モニタ/スクリーン', 0],
-    'dvd'           => ['DVDプレイヤー', 0],
-    'bdp'           => ['BDプレイヤー', 0],
+    'dvd'           => ['BD/DVDプレイヤー', 0],
     'syo'           => ['書画カメラ', 0],
     'fc_other_naiyou'   => ['その他要望機材', undef],
     'fc_vid'        => ['持ち込み映像機器', \%motikomi_cnv],
