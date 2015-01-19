@@ -12,9 +12,9 @@ our %CONDEF_CONST = (
     'CONNAME'   => '米魂',
     'CONPERIOD' => '2014-2015',
     'FULLNAME'  => '第54回日本SF大会 米魂',
-    'ENTADDR'   => 'program@comecon.com',
-    'ENVFROM'   => 'program-return@comecon.com',
-    'PGSTAFF'   => 'program-operater@comecon.com',
+    'ENTADDR'   => 'program@comecon.jp',
+    'ENVFROM'   => 'program-return@comecon.jp',
+    'PGSTAFF'   => 'program-operater@comecon.jp',
     'MIMENAME'  => '=?ISO-2022-JP?B?GyRCQmgbKEI1NBskQjJzRnxLXBsoQlNGGyRCQmcycRsoQiAbJEJKRjoyPEI5VDBRMHcycRsoQg==?=',
         # '第54回日本SF大会 米魂実行委員会' をMIME化
     'MIMEPGSG'  => '=?ISO-2022-JP?B?GyRCSkY6MjRrMmg8dUlVGyhC?=',
