@@ -2,6 +2,7 @@
 package pgreglib;
 use strict;
 use warnings;
+use Encode qw/ encode decode /;
 use Net::SMTP;
 
 #### 大会独自項目 定数定義
@@ -647,15 +648,13 @@ sub doMailSend {
         $body,      # メール本文
     ) = @_;
 
-    return;
-
     my $smtp = Net::SMTP->new('127.0.0.1');
     $smtp->mail($envfrom);
     foreach my $envto ( @$pAenvto ) {
         $smtp->to($envto);
     }
     $smtp->data();
-    $smtp->datasend( encode('7bit-jis', $body) );
+    $smtp->datasend( encode('7bit-jis', decode('utf8', $body)) );
     $smtp->dataend();
     $smtp->quit;
 }
