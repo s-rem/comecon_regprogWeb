@@ -48,10 +48,10 @@ if(defined $sid && $sid eq $session->id){
     pgreglib::pg_stdMailTmpl_set( $mail_out, $CONDEF_CONST{'PGSTAFF'}, undef );
     $mail_out->param(BOUNDER    => '_REGPRM_' . $sid . '_');
     $mail_out->param(PGNO       => $r_num);
-    $mail_out->param(MIMEPGSG   => $CONDEF_CONST{'MIMEPGS'});
+    $mail_out->param(MIMEPGSG   => $CONDEF_CONST{'MIMEPGSG'});
     my $pHreg_param = pgreglib::pg_createRegParam($session, $r_num);
     $Data::Dumper::Terse = 1; # 変数名を表示しないおまじない
-    $mail_out->param(REGPRM_DUMP    => Dumper($pHreg_param));
+    $mail_out->param(REGPRM_DUMP    => encode_json($pHreg_param));
     $mail_out->param(JSON_FNAME     => 'reg_' . $r_num . '.json');
     $mail_out->param(REGPRM_JSON    => encode_base64(encode_json($pHreg_param)));
     my $mbody2 = $mail_out->output;
