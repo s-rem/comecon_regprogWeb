@@ -295,6 +295,8 @@ my %fc_pc_cond_tbl = (
 #   val: [0]:項目名
 #      : [1]:undef:値使用 0:使用する/しない HASHREF:変換テーブル   
 my %h_pname4mail = (
+    'prog_no'       => ['企画ID', undef],
+    'regdate'       => ['申し込み日付', undef],
     # 申込者情報
     'p1_name'       => ['申込者名', undef],
     'email'         => ['メールアドレス', undef],
@@ -351,6 +353,8 @@ my %h_pname4mail = (
     # 出演者情報
     'youdo'         => ['申込者出演', \%ppn_youdo_cnv],
     ## 申込者以外の出演者は、Loop処理するのでプログラム埋め込み
+    # 備考
+    'fc_comment'    => ['備考', undef],
 );
 
 # 共通関数 HTMLテンプレート共通変数設定
@@ -609,7 +613,6 @@ sub pg_createRegParam {
     #   key: パラメータ名
     #   val: [0]:項目名
     #      : [1]:undef:値使用 0:使用する/しない HASHREF:変換テーブル   
-    #!!!
     while ( my ($pname, $pAval) = each(%h_pname4mail)) {
         my $val = $sprm->param($pname) || '';
         if ( !defined($pAval->[1]) ) {
