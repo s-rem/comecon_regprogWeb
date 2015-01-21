@@ -615,8 +615,8 @@ sub pg_createRegParam {
     my($c_d, $c_m, $c_y) = (localtime(time))[3,4,5];
     $c_y += 1900;
     $c_m += 1;
-    $reg_param{'prog_no'}   = $pg_num;
-    $reg_param{'regdate'}   = $c_y. '/' . $c_m . '/' . $c_d;
+    $sprm->param('prog_no', $pg_num);
+    $sprm->param('regdate', $c_y. '/' . $c_m . '/' . $c_d);
     
     # %h_pname4mailの定義に従って値設定 
     #   key: パラメータ名
@@ -629,7 +629,7 @@ sub pg_createRegParam {
         } elsif ( $pAval->[1] eq 0 ) {
             $reg_param{$pAval->[0]} = ($val) ? '使用する' : '使用しない';
         } else {
-            $reg_param{$pAval->[0]} = $pAval->[1]->{$val} || 'IllegalValue';
+            $reg_param{$pAval->[0]} = $pAval->[1]->{$val} || '';
         }
     }
 
