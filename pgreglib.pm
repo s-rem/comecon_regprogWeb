@@ -8,6 +8,7 @@ use Net::SMTP;
 #### 大会独自項目 定数定義
 {
 package main;
+use Sys::Hostname;
 our %CONDEF_CONST = (
     'CONNAME'   => '米魂',
     'CONPERIOD' => '2014-2015',
@@ -22,6 +23,7 @@ our %CONDEF_CONST = (
     'SPREGNUM1' => '2015DIRECTPGREGIST082930',  # 直接申込jump
     'SPREGNUM2' => '2015DIRECTMAILCHEC082930',  # 直接申込jump&FinalMail確認
     'SPREGNUM3' => '2015MAILBODYCHECK082930',   # FirstMail確認
+    'DEVENV'    => hostname =~ /s-rem.jp/ ? 1 : undef,
 );
 }
 
@@ -497,6 +499,7 @@ sub pg_HtmlTmpl_set {
     my (
         $page,  # HTML::Templateオブジェクト
         $sprm,  # CGI::Sessionオブジェクト
+        $isMail,    # undef:HTML用 その他:Mail用
     ) = @_;
 
     my $pname;
@@ -505,7 +508,8 @@ sub pg_HtmlTmpl_set {
     # 単純置き換え
     foreach $pname ( @org_pname ) {
         my $value = $sprm->param($pname);
-        $value =~ s/[\r\n]+/<br\/>/mg;
+        $value =~ s/[\r\n]+/<br\/>/mg
+            unless $isMail;
         $page->param( $pname => $value );
     }
     # テーブル変換(その他解釈込み)
@@ -516,15 +520,20 @@ sub pg_HtmlTmpl_set {
     while ( ($pname, $pAprm) = each %useunuse_pname ) {
         $page->param( $pname => cnv_useunuse_val($sprm, $pname, $pAprm));
     }
+
+    my $add0 = $isMail ? "\n      利用方法:" : '<br/><b>利用方法</b>';
+    my $add1 = $isMail ? "\n      " : '<div class="indent">';
+    my $add2 = $isMail ? ''     : '</div>';
+
     # 持ち込む/持ち込まない(追加項目解釈込み)
     while ( ($pname, $pAprm) = each %motikomi_pname ) {
         my $value = $motikomi_cnv{$sprm->param($pname)};
         if ( $value eq '持ち込む' ) {
             while ( my ($pn2, $pAp2) = each %$pAprm ) {
-                $value .= '<div class="indent">'
+                $value .= $add1
                         . $pAp2->[2] . ':'
                         . cnv_radio_val($sprm, $pn2, $pAp2)
-                        . '</div>'
+                        . $add2;
             }
         }
         $page->param( $pname => $value );
@@ -534,12 +543,12 @@ sub pg_HtmlTmpl_set {
         while ( ($pname, $pAprm) = each %lan_pname ) {
             my $value = cnv_radio_val($sprm, $pname, $pAprm);
             if ( $value ne '接続しない' ) {
-                $value .= '<br/><b>利用方法</b>'
-                        . '<div class="indent">'
+                $value .= $add0 . $add1
                         . $sprm->param('lanreason')
-                        . '</div>';
+                        . $add2;
             }
-            $value =~ s/[\r\n]+/<br\/>/mg;
+            $value =~ s/[\r\n]+/<br\/>/mg
+                unless $isMail;
             $page->param( $pname => $value );
         }
     }
@@ -614,13 +623,13 @@ sub pg_createRegParam {
     #   val: [0]:項目名
     #      : [1]:undef:値使用 0:使用する/しない HASHREF:変換テーブル   
     while ( my ($pname, $pAval) = each(%h_pname4mail)) {
-        my $val = $sprm->param($pname) || '';
+        my $val = $sprm->param($pname);
         if ( !defined($pAval->[1]) ) {
             $reg_param{$pAval->[0]} = $val
         } elsif ( $pAval->[1] eq 0 ) {
             $reg_param{$pAval->[0]} = ($val) ? '使用する' : '使用しない';
         } else {
-            $reg_param{$pAval->[0]} = $pAval->[1]->{$val} || '';
+            $reg_param{$pAval->[0]} = $pAval->[1]->{$val} || 'IllegalValue';
         }
     }
 
@@ -650,6 +659,9 @@ sub doMailSend {
         $pAenvto,   # EnvelopeTo配列参照
         $body,      # メール本文
     ) = @_;
+
+    # 開発環境では何もしない
+    return if $main::CONDEF_CONST{'DEVENV'};
 
     my $smtp = Net::SMTP->new('127.0.0.1');
     $smtp->mail($envfrom);

@@ -32,7 +32,8 @@ $session->param('phase','1-1');         # フェーズ番号
 
 # 申し込みURL生成
 my ($filename, $pathname) = fileparse($cgi->self_url);
-$pathname =~ s/^http:/https:/g ;
+$pathname =~ s/^http:/https:/g      # 開発環境ではhttpのまま
+    unless $CONDEF_CONST{'DEVENV'};
 my $next_uri = $pathname . 'phase1.cgi?ID=' . $session->id;
 
 # テスト用(申し込みURL送信省略)

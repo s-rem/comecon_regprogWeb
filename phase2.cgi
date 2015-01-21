@@ -25,7 +25,7 @@ if(defined $sid && $sid eq $session->id){
 	$session->param('phase', '2-1');
 
     # テンプレートにパラメータを設定
-    pgreglib::pg_HtmlTmpl_set($input_page, $session);
+    pgreglib::pg_HtmlTmpl_set($input_page, $session, undef);
 	$http_header = $cgi->header(-charset=>'UTF-8', -expires=>'now');
 } else{
     # 古いセッションを削除

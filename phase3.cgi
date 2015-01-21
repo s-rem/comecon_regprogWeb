@@ -38,7 +38,7 @@ if(defined $sid && $sid eq $session->id){
     # 登録者に送るmail生成/送付
     my $mail_out = HTML::Template->new(filename => 'mail-finish-tmpl.txt');
     pgreglib::pg_stdMailTmpl_set( $mail_out, $mailaddr, $name );
-    pgreglib::pg_HtmlTmpl_set($mail_out, $session);
+    pgreglib::pg_HtmlTmpl_set($mail_out, $session, 1);
     my $mbody = $mail_out->output;
     pgreglib::doMailSend( $CONDEF_CONST{'ENVFROM'},
                 [ $mailaddr, $CONDEF_CONST{'ENTADDR'}, ],
@@ -62,7 +62,7 @@ if(defined $sid && $sid eq $session->id){
     
     # HTMLを生成する。
     $input_page=HTML::Template->new(filename => 'phase3-tmpl.html');
-    pgreglib::pg_HtmlTmpl_set($input_page, $session);
+    pgreglib::pg_HtmlTmpl_set($input_page, $session, undef);
     if ( $session->param('reg_num') eq $CONDEF_CONST{'SPREGNUM2'}) {
         pgreglib::pg_HtmlMailChk_set($input_page, $mbody, $mbody2);
     }
