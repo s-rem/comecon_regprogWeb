@@ -1,4 +1,4 @@
-comecon_sample
+comecon_regprogWeb
 ==============
 米魂の企画申込画面テスト用
 
